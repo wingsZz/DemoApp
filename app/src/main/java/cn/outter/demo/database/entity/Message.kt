@@ -5,12 +5,18 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "outter_messages")
-@ForeignKey(entity = Session::class, parentColumns = ["id"],childColumns = ["session_id"], onDelete = ForeignKey.CASCADE )
+@Entity(tableName = "outter_messages", foreignKeys = [ForeignKey(
+    entity = Session::class,
+    parentColumns = ["id"],
+    childColumns = ["session_id"],
+    onDelete = ForeignKey.CASCADE
+)])
 data class Message(
     @PrimaryKey
     val id: Long,
-    @ColumnInfo(name = "session_id") val sessionId: Long,
+    @ColumnInfo(name = "session_id", index = true)
+    val sessionId: Long,
 
-    @ColumnInfo(name = "last_name") val lastName: String?
+    @ColumnInfo(name = "last_name")
+    val lastName: String?
 )
