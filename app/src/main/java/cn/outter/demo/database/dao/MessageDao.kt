@@ -1,11 +1,9 @@
 package cn.outter.demo.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import cn.outter.demo.database.entity.Message
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 abstract class MessageDao {
@@ -14,6 +12,6 @@ abstract class MessageDao {
     abstract fun queryAllMessagesBySessionId(sessionId:Long): Flowable<List<Message>>
 
     @Transaction
-    @Insert
-    abstract fun insertMessage(message: Message)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insertMessage(vararg message: Message):Single<List<Long>>
 }
