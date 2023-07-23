@@ -113,6 +113,13 @@ dependencies {
     // Adapter封装
     implementation "io.github.cymchad:BaseRecyclerViewAdapterHelper:3.0.14"
 
+    // 支付
+    //支付宝 支付包
+    implementation 'com.alipay.sdk:alipaysdk-android:15.8.15'
+//    compileOnly 'com.alipay.sdk:alipay-sdk-java:4.9.28.ALL'
+    //微信登录，支付，分享包
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0'
+
     // 测试帮助
     testImplementation "androidx.room:room-testing:$room_version"
 }

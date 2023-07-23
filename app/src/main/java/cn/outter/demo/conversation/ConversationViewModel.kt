@@ -6,7 +6,6 @@ import cn.outter.demo.database.ChatDataBaseDelegate
 import cn.outter.demo.database.entity.Message
 import cn.outter.demo.database.entity.Session
 import cn.outter.demo.database.entity.UserInfo
-import io.reactivex.Maybe
 import io.reactivex.MaybeObserver
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
