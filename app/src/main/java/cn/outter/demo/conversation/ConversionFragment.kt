@@ -7,6 +7,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import cn.outter.demo.bean.User
 import cn.outter.demo.databinding.OutterFragmentConversationBinding
 import cn.outter.demo.keyboard.util.KPSwitchConflictUtil
 import cn.outter.demo.keyboard.util.KeyboardUtil
@@ -15,7 +16,13 @@ import me.hgj.jetpackmvvm.base.fragment.BaseVmVbFragment
 class ConversionFragment :
     BaseVmVbFragment<ConversationViewModel, OutterFragmentConversationBinding>() {
     override fun createObserver() {
+        mViewModel.sessionLiveData.observe(this) {
 
+        }
+
+        mViewModel.messagesLiveData.observe(this) {
+
+        }
     }
 
     override fun dismissLoading() {
@@ -40,7 +47,7 @@ class ConversionFragment :
             mViewBind.toolBar.plusIv,
             mViewBind.toolBar.sendEdt
         )
-        { view,switchToPanel ->
+        { view, switchToPanel ->
             if (switchToPanel) {
                 mViewBind.toolBar.sendEdt.clearFocus()
             } else {
@@ -57,7 +64,12 @@ class ConversionFragment :
     }
 
     override fun lazyLoadData() {
-
+        val toUser = arguments?.get("toUser") as User?
+        if (toUser == null) {
+            requireActivity().finish()
+            return
+        }
+        mViewModel.getSession(toUser)
     }
 
     override fun showLoading(message: String) {

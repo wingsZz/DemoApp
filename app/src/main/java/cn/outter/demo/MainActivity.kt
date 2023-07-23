@@ -82,7 +82,7 @@ class MainActivity : BaseVmVbActivity<MainViewModel, ActivityMainBinding>() {
         tabLayoutMediator?.attach()
 
         Handler().postDelayed({
-//            DatabaseMockUtil.mockSession()
+            DatabaseMockUtil.mockMessage()
         },1000)
 
         mViewBind.toConversation.setOnClickListener {

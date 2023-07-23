@@ -11,6 +11,12 @@ data class Session(
     @PrimaryKey
     val id: Long,
 
+    @ColumnInfo(name = "last_message_content")
+    var lastMessageContent:String,
+
+    @ColumnInfo(name = "last_message_time")
+    var lastMessageTime:Long,
+
     @ColumnInfo(name = "user_info")
     var userInfo: UserInfo
 )

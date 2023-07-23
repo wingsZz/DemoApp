@@ -19,5 +19,5 @@ abstract class SessionDao {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertSession(vararg session: Session):Single<List<Long>>
+    abstract fun insertSession(vararg session: Session):Single<List<Long>?>
 }

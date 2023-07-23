@@ -18,7 +18,7 @@
             android:name=".OutterApp"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,8 +30,12 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity android:name="cn.outter.demo.conversation.ConversationActivity"
                 android:windowSoftInputMode="adjustResize"/>
+        <activity android:name="cn.outter.demo.account.LoginActivity" />
+        <activity android:name="cn.outter.demo.account.RegisterActivity" />
+
     </application>
 
 </manifest>

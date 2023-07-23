@@ -2,7 +2,12 @@ package cn.outter.demo
 
 import android.util.Log
 import cn.outter.demo.database.ChatDataBaseDelegate
+import cn.outter.demo.database.entity.BaseMessage
+import cn.outter.demo.database.entity.ImgMsg
+import cn.outter.demo.database.entity.Message
+import cn.outter.demo.database.entity.MsgType
 import cn.outter.demo.database.entity.Session
+import cn.outter.demo.database.entity.TxtMsg
 import cn.outter.demo.database.entity.UserInfo
 import io.reactivex.FlowableSubscriber
 import io.reactivex.MaybeObserver
@@ -13,13 +18,14 @@ import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Subscription
 import timber.log.Timber
+import kotlin.random.Random
 
 object DatabaseMockUtil {
     fun mockSession() {
         val sessions = ArrayList<Session>(100)
         for (i in 0 until 100) {
             val userInfo = UserInfo(i.toString(), "name_$i", "url_$i")
-            val session = Session(i.toLong(), userInfo)
+            val session = Session(i.toLong(),"",System.currentTimeMillis(), userInfo)
             sessions.add(session)
         }
 
@@ -33,6 +39,44 @@ object DatabaseMockUtil {
             }
             ) { t ->
                 t?.message
+            }
+    }
+
+    fun mockMessage() {
+        val messages = ArrayList<Message>(1000)
+        for (i in 0 until 100) {
+            val msgType = java.util.Random().nextInt(2) + 1
+            if (msgType == MsgType.TXT) {
+                val msg = TxtMsg()
+                msg.msgType = MsgType.TXT
+                msg.content = "哈哈哈哈$i"
+                val map = HashMap<String,Any>()
+                map.put("content",msg.toString())
+                val message = Message(1,map,MsgType.TXT)
+                messages.add(message)
+            } else {
+                val msg = ImgMsg()
+                msg.msgType = MsgType.PIC
+                msg.imageH = i
+                msg.imageW = i
+                msg.imageUrl = "url_$i"
+                msg.imageLocalPath = "local_$i"
+                val map = HashMap<String,Any>()
+                map.put("content",msg.toString())
+                val message = Message(1,map,MsgType.TXT)
+                messages.add(message)
+            }
+        }
+
+        ChatDataBaseDelegate.db.messages().insertMessage(*messages.toTypedArray())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.d("DatabaseDebug","haha -> ${it.size}")
+                getAllSession()
+            }
+            ) { t ->
+                Log.d("DatabaseDebug","haha -> ${t.message}")
             }
     }
 
