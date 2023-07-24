@@ -1,6 +1,7 @@
 package cn.outter.demo.splash
 
 import androidx.lifecycle.MutableLiveData
+import cn.outter.demo.DataCacheInMemory
 import cn.outter.demo.bean.User
 import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
@@ -11,20 +12,20 @@ import io.reactivex.schedulers.Schedulers
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 import org.reactivestreams.Subscription
 
-class SplashViewModel:BaseViewModel() {
+class SplashViewModel : BaseViewModel() {
     val userLiveData = MutableLiveData<User?>()
 
     fun chooseWhereToGo() {
-        Flowable.just("")
+        Flowable.just(DataCacheInMemory.MINE_KEY)
             .map {
-                MMKV.defaultMMKV().getString("","")
+                MMKV.defaultMMKV().getString(it, "")
             }
             .map {
-                Gson().fromJson(it,User::class.java)
+                Gson().fromJson(it, User::class.java)
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object :FlowableSubscriber<User>{
+            .subscribe(object : FlowableSubscriber<User> {
                 override fun onSubscribe(s: Subscription) {
 
                 }

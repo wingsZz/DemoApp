@@ -28,6 +28,9 @@ class ConversationActivity : BaseVmVbActivity<BaseViewModel, OutterActivityConve
 //        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 //        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         conversationFragment = ConversionFragment()
+        val bundle = Bundle()
+        bundle.putAll(intent.extras)
+        conversationFragment?.arguments = bundle
         supportFragmentManager.beginTransaction().add(R.id.container,conversationFragment!!,"").commit()
     }
 

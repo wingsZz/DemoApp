@@ -13,11 +13,11 @@ import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 class SplashActivity:BaseVmVbActivity<SplashViewModel,OutterActSplashBinding>() {
     override fun createObserver() {
         mViewModel.userLiveData.observe(this) {
-            if (it == null) {
-                startActivity(Intent(this,LoginActivity::class.java))
-            } else {
+//            if (it == null) {
+//                startActivity(Intent(this,LoginActivity::class.java))
+//            } else {
                 startActivity(Intent(this,MainActivity::class.java))
-            }
+//            }
         }
     }
 

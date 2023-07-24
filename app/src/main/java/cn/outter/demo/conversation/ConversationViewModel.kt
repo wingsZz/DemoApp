@@ -1,6 +1,7 @@
 package cn.outter.demo.conversation
 
 import androidx.lifecycle.MutableLiveData
+import cn.outter.demo.DataCacheInMemory
 import cn.outter.demo.bean.User
 import cn.outter.demo.database.ChatDataBaseDelegate
 import cn.outter.demo.database.entity.Message
@@ -17,8 +18,10 @@ class ConversationViewModel : BaseViewModel() {
     val sessionLiveData = MutableLiveData<Session?>()
     val messagesLiveData = MutableLiveData<List<Message>>()
 
-    fun getSession(toUser: User) {
-        ChatDataBaseDelegate.db.sessions().querySession(toUser.id)
+    private val mine = DataCacheInMemory.mine
+
+    fun getSession(toUserId: String) {
+        ChatDataBaseDelegate.db.sessions().querySession("${mine?.id}_${toUserId}")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : MaybeObserver<Session?> {
@@ -27,7 +30,7 @@ class ConversationViewModel : BaseViewModel() {
                 }
 
                 override fun onError(e: Throwable) {
-                    createSession(toUser)
+                    createSession(toUserId)
                 }
 
                 override fun onComplete() {
@@ -40,8 +43,8 @@ class ConversationViewModel : BaseViewModel() {
             })
     }
 
-    fun createSession(toUser: User) {
-        val session = Session(toUser.id, "", System.currentTimeMillis(), UserInfo("", "", ""))
+    fun createSession(toUserId: String) {
+        val session = Session("${mine?.id}_${toUserId}", "", System.currentTimeMillis(), UserInfo("", "", ""))
         ChatDataBaseDelegate.db.sessions().insertSession()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -64,7 +67,7 @@ class ConversationViewModel : BaseViewModel() {
             })
     }
 
-    fun getConversations(sessionId: Long) {
+    fun getConversations(sessionId: String) {
         ChatDataBaseDelegate.db.messages().queryAllMessagesBySessionId(sessionId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

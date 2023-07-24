@@ -14,7 +14,15 @@ class RegisterActivity:BaseVmVbActivity<RegisterViewModel,OutterActRegisterBindi
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        mViewBind.register.setOnClickListener {
+            val account = mViewBind.account.text.toString()
+            val password = mViewBind.password.text.toString()
+            val passwordAgain = mViewBind.passwordAgain.text.toString()
+            if (password != passwordAgain) {
+                return@setOnClickListener
+            }
 
+        }
     }
 
     override fun showLoading(message: String) {

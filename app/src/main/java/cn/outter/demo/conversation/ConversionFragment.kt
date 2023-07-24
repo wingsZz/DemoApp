@@ -3,11 +3,15 @@ package cn.outter.demo.conversation
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.util.SparseArray
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import androidx.recyclerview.widget.LinearLayoutManager
+import cn.outter.demo.R
 import cn.outter.demo.bean.User
+import cn.outter.demo.database.entity.Session
 import cn.outter.demo.databinding.OutterFragmentConversationBinding
 import cn.outter.demo.keyboard.util.KPSwitchConflictUtil
 import cn.outter.demo.keyboard.util.KeyboardUtil
@@ -15,6 +19,12 @@ import me.hgj.jetpackmvvm.base.fragment.BaseVmVbFragment
 
 class ConversionFragment :
     BaseVmVbFragment<ConversationViewModel, OutterFragmentConversationBinding>() {
+
+    private var session:Session? = null
+    private var toUserId:String = ""
+
+    private var adapter:MessageAdapter? = null
+
     override fun createObserver() {
         mViewModel.sessionLiveData.observe(this) {
 
@@ -61,15 +71,25 @@ class ConversionFragment :
             }
             false
         })
+
+        adapter = MessageAdapter()
+        mViewBind.messageListView.contentRyv.layoutManager = LinearLayoutManager(context)
+        mViewBind.messageListView.contentRyv.adapter = adapter
     }
 
     override fun lazyLoadData() {
-        val toUser = arguments?.get("toUser") as User?
-        if (toUser == null) {
-            requireActivity().finish()
-            return
+//        val toUser = arguments?.get("toUser") as User?
+//        if (toUser == null) {
+//            requireActivity().finish()
+//            return
+//        }
+        session = arguments?.get("session") as Session?
+        toUserId = arguments?.getString("toUserId")?: ""
+        if (session == null) {
+            mViewModel.getSession(toUserId)
+        } else {
+            mViewModel.getConversations(session!!.id)
         }
-        mViewModel.getSession(toUser)
     }
 
     override fun showLoading(message: String) {

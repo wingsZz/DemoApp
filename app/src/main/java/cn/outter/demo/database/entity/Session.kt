@@ -9,7 +9,7 @@ import androidx.room.TypeConverters
 @TypeConverters(value = [UserInfoConvert::class])
 data class Session(
     @PrimaryKey
-    val id: Long,
+    val id: String,
 
     @ColumnInfo(name = "last_message_content")
     var lastMessageContent:String,
@@ -19,4 +19,4 @@ data class Session(
 
     @ColumnInfo(name = "user_info")
     var userInfo: UserInfo
-)
+):java.io.Serializable

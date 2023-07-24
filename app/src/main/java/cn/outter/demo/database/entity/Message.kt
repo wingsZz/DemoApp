@@ -30,7 +30,10 @@ data class Message(
     val toId: String,
 
     @ColumnInfo(name = "message_from_id")
-    val fromId: String
+    val fromId: String,
+
+    @ColumnInfo(name = "message_send_time")
+    val sendTime:Long
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0

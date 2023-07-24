@@ -25,7 +25,7 @@ object DatabaseMockUtil {
         val sessions = ArrayList<Session>(100)
         for (i in 0 until 100) {
             val userInfo = UserInfo(i.toString(), "name_$i", "url_$i")
-            val session = Session(i.toLong(),"",System.currentTimeMillis(), userInfo)
+            val session = Session(i.toString(),"",System.currentTimeMillis(), userInfo)
             sessions.add(session)
         }
 
@@ -34,7 +34,7 @@ object DatabaseMockUtil {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.d("DatabaseDebug","haha -> ${it.size}")
+                Log.d("DatabaseDebug","haha -> ${it?.size}")
                 getAllSession()
             }
             ) { t ->
@@ -44,7 +44,7 @@ object DatabaseMockUtil {
 
     fun mockMessage() {
         val messages = ArrayList<Message>(1000)
-        for (i in 0 until 100) {
+        for (i in 0 until 1000) {
             val msgType = java.util.Random().nextInt(2) + 1
             if (msgType == MsgType.TXT) {
                 val msg = TxtMsg()
@@ -52,7 +52,7 @@ object DatabaseMockUtil {
                 msg.content = "哈哈哈哈$i"
                 val map = HashMap<String,Any>()
                 map.put("content",msg.toString())
-                val message = Message(1,map,MsgType.TXT)
+                val message = Message(1,map,MsgType.TXT,"1","1",System.currentTimeMillis())
                 messages.add(message)
             } else {
                 val msg = ImgMsg()
@@ -63,7 +63,7 @@ object DatabaseMockUtil {
                 msg.imageLocalPath = "local_$i"
                 val map = HashMap<String,Any>()
                 map.put("content",msg.toString())
-                val message = Message(1,map,MsgType.TXT)
+                val message = Message(1,map,MsgType.TXT,"1","1",System.currentTimeMillis())
                 messages.add(message)
             }
         }

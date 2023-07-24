@@ -27,6 +27,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import cn.outter.demo.pay.PayChannel;
+import cn.outter.demo.pay.PayResultCallback;
+
 /**
  *
  * @author Tamsiree
@@ -39,71 +42,71 @@ public class WechatPayTools {
      *
      * @return
      */
-    public static String wechatPayUnifyOrder(final Context mContext, final String appid, final String mch_id, final String wx_private_key, WechatModel wechatModel, final OnSuccessAndErrorListener OnSuccessAndErrorListener) {
-        String nonce_str = getRandomStringByLength(8);//随机码
-        String body = wechatModel.getDetail();//商品描述
-        String out_trade_no = wechatModel.getOut_trade_no();//商品订单号
-        String product_id = wechatModel.getOut_trade_no();//商品编号
-        String total_fee = wechatModel.getMoney();//总金额 分
-        String time_start = getCurrTime();//交易起始时间(订单生成时间非必须)
-        String trade_type = "APP";//App支付
-        String notify_url = "https://github.com/tamsiree/RxTool";//"http://" + "域名" + "/" + "项目名" + "回调地址.do";//回调函数
-        SortedMap<String, String> params = new TreeMap<String, String>();
-        params.put("appid", appid);
-        params.put("mch_id", mch_id);
-        params.put("device_info", "WEB"); //设备号
-        params.put("nonce_str", nonce_str);
-        params.put("body", body);//商品描述
-        params.put("out_trade_no", out_trade_no);
-        params.put("product_id", product_id);
-        params.put("total_fee", total_fee);
-        params.put("time_start", time_start);
-        params.put("trade_type", trade_type);
-        params.put("notify_url", notify_url);
-        String sign = "";//签名(该签名本应使用微信商户平台的API证书中的密匙key,但此处使用的是微信公众号的密匙APP_SECRET)
-        sign = getSign(params, wx_private_key);
-        //参数xml化
-        String xmlParams = parseString2Xml(params, sign);
-        //判断返回码
-        final String[] jsonStr = {""};
+//    public static String wechatPayUnifyOrder(final Context mContext, final String appid, final String mch_id, final String wx_private_key, WechatModel wechatModel, final OnSuccessAndErrorListener OnSuccessAndErrorListener) {
+//        String nonce_str = getRandomStringByLength(8);//随机码
+//        String body = wechatModel.getDetail();//商品描述
+//        String out_trade_no = wechatModel.getOut_trade_no();//商品订单号
+//        String product_id = wechatModel.getOut_trade_no();//商品编号
+//        String total_fee = wechatModel.getMoney();//总金额 分
+//        String time_start = getCurrTime();//交易起始时间(订单生成时间非必须)
+//        String trade_type = "APP";//App支付
+//        String notify_url = "https://github.com/tamsiree/RxTool";//"http://" + "域名" + "/" + "项目名" + "回调地址.do";//回调函数
+//        SortedMap<String, String> params = new TreeMap<String, String>();
+//        params.put("appid", appid);
+//        params.put("mch_id", mch_id);
+//        params.put("device_info", "WEB"); //设备号
+//        params.put("nonce_str", nonce_str);
+//        params.put("body", body);//商品描述
+//        params.put("out_trade_no", out_trade_no);
+//        params.put("product_id", product_id);
+//        params.put("total_fee", total_fee);
+//        params.put("time_start", time_start);
+//        params.put("trade_type", trade_type);
+//        params.put("notify_url", notify_url);
+//        String sign = "";//签名(该签名本应使用微信商户平台的API证书中的密匙key,但此处使用的是微信公众号的密匙APP_SECRET)
+//        sign = getSign(params, wx_private_key);
+//        //参数xml化
+//        String xmlParams = parseString2Xml(params, sign);
+//        //判断返回码
+//        final String[] jsonStr = {""};
+//
+//        OkGo.<String>post(WX_TOTAL_ORDER)
+//                .upString(xmlParams)
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onSuccess(com.lzy.okgo.model.Response<String> response) {
+//                        String s = response.body();
+//                        TLog.d("微信统一下单", s);
+//                        jsonStr[0] = s;
+//
+//                        Map<String, String> mapXml = null;
+//                        try {
+//                            mapXml = getMapFromXML(s);
+//                        } catch (ParserConfigurationException | IOException | SAXException e) {
+//                            e.printStackTrace();
+//                        }
+//                        String time = getCurrTime();
+//
+//                        SortedMap<String, String> params = new TreeMap<String, String>();
+//                        params.put("appid", appid);
+//                        params.put("noncestr", "5K8264ILTKCH16CQ2502SI8ZNMTM67VS");
+//                        params.put("package", "Sign=WechatPay");
+//                        params.put("partnerid", mch_id);
+//                        params.put("prepayid", mapXml.get("prepay_id"));
+//                        params.put("timestamp", time);
+//
+//                        wechatPayApp(mContext, appid, mch_id, wx_private_key, params, OnSuccessAndErrorListener);
+//                    }
+//                });
+//
+//        if (!jsonStr[0].contains("FAIL") && jsonStr[0].trim().length() > 0) {//成功
+//            return "success";
+//        } else {//失败
+//            return "fail";
+//        }
+//    }
 
-        OkGo.<String>post(WX_TOTAL_ORDER)
-                .upString(xmlParams)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(com.lzy.okgo.model.Response<String> response) {
-                        String s = response.body();
-                        TLog.d("微信统一下单", s);
-                        jsonStr[0] = s;
-
-                        Map<String, String> mapXml = null;
-                        try {
-                            mapXml = getMapFromXML(s);
-                        } catch (ParserConfigurationException | IOException | SAXException e) {
-                            e.printStackTrace();
-                        }
-                        String time = getCurrTime();
-
-                        SortedMap<String, String> params = new TreeMap<String, String>();
-                        params.put("appid", appid);
-                        params.put("noncestr", "5K8264ILTKCH16CQ2502SI8ZNMTM67VS");
-                        params.put("package", "Sign=WechatPay");
-                        params.put("partnerid", mch_id);
-                        params.put("prepayid", mapXml.get("prepay_id"));
-                        params.put("timestamp", time);
-
-                        wechatPayApp(mContext, appid, mch_id, wx_private_key, params, OnSuccessAndErrorListener);
-                    }
-                });
-
-        if (!jsonStr[0].contains("FAIL") && jsonStr[0].trim().length() > 0) {//成功
-            return "success";
-        } else {//失败
-            return "fail";
-        }
-    }
-
-    public static void wechatPayApp(Context mContext, String appid, String mch_id, String wx_private_key, SortedMap<String, String> params, OnSuccessAndErrorListener onRxHttp) {
+    public static void wechatPayApp(Context mContext, String appid, String mch_id, String wx_private_key, SortedMap<String, String> params, PayResultCallback onRxHttp) {
         String sign = getSign(params, wx_private_key);
 
         WechatPayModel wechatPayModel = new WechatPayModel(appid, mch_id, params.get("prepayid"), "Sign=WechatPay", params.get("noncestr"), params.get("timestamp"), sign);
@@ -111,7 +114,7 @@ public class WechatPayTools {
         WechatPayTools.doWXPay(mContext, appid, pay_param, onRxHttp);
     }
 
-    public static void wechatPayApp(Context mContext, String app_id, String partner_id, String wx_private_key, String prepay_id, OnSuccessAndErrorListener onRxHttp) {
+    public static void wechatPayApp(Context mContext, String app_id, String partner_id, String wx_private_key, String prepay_id, PayResultCallback onRxHttp) {
         SortedMap<String, String> params = new TreeMap<String, String>();
         params.put("appid", app_id);
         params.put("noncestr", "5K8264ILTKCH16CQ2502SI8ZNMTM67VS");
@@ -227,30 +230,26 @@ public class WechatPayTools {
     }
 
 
-    public static void doWXPay(Context mContext, String wx_appid, String pay_param, final OnSuccessAndErrorListener onRxHttpString) {
+    public static void doWXPay(Context mContext, String wx_appid, String pay_param, final PayResultCallback onRxHttpString) {
         WechatPay.init(mContext, wx_appid);//要在支付前调用
         WechatPay.getInstance().doPay(pay_param, new WechatPay.WXPayResultCallBack() {
             @Override
             public void onSuccess() {
-                RxToast.success("微信支付成功");
-                onRxHttpString.onSuccess("微信支付成功");
+                onRxHttpString.onSuccess("微信支付成功", PayChannel.Companion.getWECHAT_PAY());
             }
 
             @Override
             public void onError(int error_code) {
                 switch (error_code) {
                     case WechatPay.NO_OR_LOW_WX:
-                        RxToast.error("未安装微信或微信版本过低");
                         onRxHttpString.onError("未安装微信或微信版本过低");
                         break;
 
                     case WechatPay.ERROR_PAY_PARAM:
-                        RxToast.error("参数错误");
                         onRxHttpString.onError("参数错误");
                         break;
 
                     case WechatPay.ERROR_PAY:
-                        RxToast.error("支付失败");
                         onRxHttpString.onError("支付失败");
                         break;
                 }
@@ -258,8 +257,7 @@ public class WechatPayTools {
 
             @Override
             public void onCancel() {
-                RxToast.error("支付取消");
-                onRxHttpString.onError("支付取消");
+                onRxHttpString.onCancel("支付取消");
             }
         });
     }

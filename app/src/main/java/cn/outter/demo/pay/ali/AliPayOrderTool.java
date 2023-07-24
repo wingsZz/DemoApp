@@ -1,8 +1,6 @@
 package cn.outter.demo.pay.ali;
 
 
-import com.tamsiree.rxkit.RxTimeTool;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -14,6 +12,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+
+import cn.outter.demo.utils.DateFormatUtil;
 
 /**
  * @author tamsiree
@@ -90,7 +90,7 @@ public class AliPayOrderTool {
 
         keyValues.put("sign_type", rsa2 ? "RSA2" : "RSA");
 
-        keyValues.put("timestamp", RxTimeTool.getCurrentDateTime("yyyy-MM-dd HH:mm:ss"));
+        keyValues.put("timestamp", DateFormatUtil.INSTANCE.formatTimeString(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
 
         keyValues.put("version", "1.0");
 

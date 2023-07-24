@@ -57,7 +57,7 @@ dependencies {
     implementation 'com.github.getActivity:ToastUtils:9.5'
 
     // 网络请求框架：https://github.com/getActivity/EasyHttp
-    implementation 'com.github.getActivity:EasyHttp:10.2'
+    implementation 'com.github.getActivity:EasyHttp:12.0'
     // OkHttp 框架：https://github.com/square/okhttp
     // noinspection GradleDependency
     implementation 'com.squareup.okhttp3:okhttp:3.12.13'
@@ -116,9 +116,10 @@ dependencies {
     // 支付
     //支付宝 支付包
     implementation 'com.alipay.sdk:alipaysdk-android:15.8.15'
-//    compileOnly 'com.alipay.sdk:alipay-sdk-java:4.9.28.ALL'
     //微信登录，支付，分享包
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.4.0'
+
+    implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
 
     // 测试帮助
     testImplementation "androidx.room:room-testing:$room_version"

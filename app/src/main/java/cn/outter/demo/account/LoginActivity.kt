@@ -2,8 +2,8 @@ package cn.outter.demo.account
 
 import android.content.Intent
 import android.os.Bundle
+import cn.outter.demo.base.BaseVmVbActivity
 import cn.outter.demo.databinding.OutterActLoginBinding
-import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
 
 class LoginActivity : BaseVmVbActivity<LoginViewModel, OutterActLoginBinding>() {
     override fun createObserver() {
@@ -16,7 +16,9 @@ class LoginActivity : BaseVmVbActivity<LoginViewModel, OutterActLoginBinding>() 
 
     override fun initView(savedInstanceState: Bundle?) {
         mViewBind.login.setOnClickListener {
-
+            val account = mViewBind.account.text.toString()
+            val password = mViewBind.password.text.toString()
+            mViewModel.login(account, password ,this)
         }
 
         mViewBind.register.setOnClickListener {

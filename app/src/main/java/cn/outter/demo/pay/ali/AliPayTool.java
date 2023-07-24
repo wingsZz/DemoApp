@@ -8,10 +8,11 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alipay.sdk.app.PayTask;
-import com.tamsiree.rxkit.TLog;
-import com.tamsiree.rxkit.interfaces.OnSuccessAndErrorListener;
 
 import java.util.Map;
+
+import cn.outter.demo.pay.PayChannel;
+import cn.outter.demo.pay.PayResultCallback;
 
 /**
  * @author tamsiree
@@ -20,7 +21,7 @@ public class AliPayTool {
 
     private static final int SDK_PAY_FLAG = 1;
 
-    private static OnSuccessAndErrorListener sOnSuccessAndErrorListener;
+    private static PayResultCallback sOnSuccessAndErrorListener;
     @SuppressLint("HandlerLeak")
     private static Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -36,7 +37,7 @@ public class AliPayTool {
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        sOnSuccessAndErrorListener.onSuccess(resultStatus);
+                        sOnSuccessAndErrorListener.onSuccess(resultStatus, PayChannel.Companion.getALI_PAY());
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         sOnSuccessAndErrorListener.onError(resultStatus);
@@ -49,7 +50,7 @@ public class AliPayTool {
         }
     };
 
-    public static void aliPay(final Activity activity, String appid, boolean isRsa2, String alipay_rsa_private, AliPayModel aliPayModel, OnSuccessAndErrorListener onRxHttp1) {
+    public static void aliPay(final Activity activity, String appid, boolean isRsa2, String alipay_rsa_private, AliPayModel aliPayModel, PayResultCallback onRxHttp1) {
         sOnSuccessAndErrorListener = onRxHttp1;
         Map<String, String> params = AliPayOrderTool.buildOrderParamMap(appid, isRsa2, aliPayModel.getOutTradeNo(), aliPayModel.getName(), aliPayModel.getMoney(), aliPayModel.getDetail());
         String orderParam = AliPayOrderTool.buildOrderParam(params);

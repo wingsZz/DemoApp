@@ -10,12 +10,12 @@ import io.reactivex.Single
 abstract class SessionDao {
 
     @Transaction
-    @Query("select * from outter_sessions")
+    @Query("select * from outter_sessions order by last_message_time DESC")
     abstract fun queryAllSessions():Maybe<List<Session>?>
 
     @Transaction
     @Query("select * from outter_sessions where id = :sessionId")
-    abstract fun querySession(sessionId:Long):Maybe<Session?>
+    abstract fun querySession(sessionId:String):Maybe<Session?>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -2,6 +2,7 @@
     <string name="app_name">Demo</string>
     <string name="outter_input_account">请输入账号</string>
     <string name="outter_input_password">请输入密码</string>
+    <string name="outter_input_password_again">请再次输入密码</string>
     <string name="outter_login">登录</string>
     <string name="outter_register">注册</string>
 </resources>
