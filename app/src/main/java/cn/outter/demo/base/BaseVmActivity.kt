@@ -1,5 +1,6 @@
 package cn.outter.demo.base
 
+import android.R
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import cn.outter.demo.base.manager.NetState
 import cn.outter.demo.base.manager.NetworkStateManager
 import cn.outter.demo.utils.notNull
+import com.gyf.immersionbar.ImmersionBar
+
 
 abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
 
@@ -28,6 +31,7 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
         }, {
             setContentView(layoutId())
         })
+        initImmersionBar()
         init(savedInstanceState)
     }
 
@@ -39,6 +43,15 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
         NetworkStateManager.instance.mNetworkStateCallback.observeInActivity(this, Observer {
             onNetworkStateChanged(it)
         })
+    }
+
+    /**
+     * 初始化沉浸式
+     * Init immersion bar.
+     */
+    protected open fun initImmersionBar() {
+        //设置共同沉浸式样式
+        ImmersionBar.with(this).statusBarColor(android.R.color.white).fitsSystemWindows(true).init()
     }
 
     /**

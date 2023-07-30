@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="outter_login_no_account">还没有账号？</string>
+    <string name="outter_login_sign_up">注册</string>
+    <string name="outter_login_input_account">请输入账号</string>
+    <string name="outter_login_input_password">请输入密码</string>
+    <string name="outter_login_input_password_again">请再次输入密码</string>
+    <string name="outter_login_login">登录</string>
+    <string name="outter_login_register">注册</string>
+    <string name="outter_login_choose_birthdate">请选择生日</string>
+</resources>

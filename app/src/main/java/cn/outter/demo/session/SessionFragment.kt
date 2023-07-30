@@ -10,7 +10,6 @@ import cn.outter.demo.conversation.ConversationActivity
 import cn.outter.demo.database.entity.Session
 import cn.outter.demo.databinding.OutterFragmentSessionBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.jeremyliao.liveeventbus.LiveEventBus
 import java.util.Arrays
 import java.util.Collections
@@ -23,7 +22,7 @@ class SessionFragment : BaseVmVbFragment<SessionViewModel, OutterFragmentSession
             if (it.isNullOrEmpty()) {
 
             } else {
-                adapter?.addData(it)
+                adapter?.addAll(it)
             }
         }
     }
@@ -38,9 +37,9 @@ class SessionFragment : BaseVmVbFragment<SessionViewModel, OutterFragmentSession
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         mViewBind.sessionListView.adapter = adapter
 
-        adapter?.setOnItemClickListener(object : OnItemClickListener {
-            override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                val session = adapter.data[position] as Session?
+        adapter?.setOnItemClickListener(object : BaseQuickAdapter.OnItemClickListener<Session> {
+            override fun onClick(adapter: BaseQuickAdapter<Session, *>, view: View, position: Int) {
+                val session = adapter.items[position] as Session?
                 if (session != null) {
                     val intent = Intent(context, ConversationActivity::class.java)
                     intent.putExtra("session", session)
@@ -48,7 +47,7 @@ class SessionFragment : BaseVmVbFragment<SessionViewModel, OutterFragmentSession
                     startActivity(intent)
                     mViewBind.sessionListView.postDelayed({
                         mViewModel.updateSessionLastMessageTime(session)
-                        Collections.swap(adapter.data, 0, position)
+                        Collections.swap(adapter.items, 0, position)
                         adapter.notifyItemMoved(position, 0)
                         mViewBind.sessionListView.scrollToPosition(0)
                     }, 100)
@@ -58,12 +57,12 @@ class SessionFragment : BaseVmVbFragment<SessionViewModel, OutterFragmentSession
 
         LiveEventBus.get("", SessionAction::class.java)
             .observeForever {
-                val datas = adapter?.data
+                val datas = adapter?.items
                 if (datas != null) {
                     when (it.type) {
                         0 -> {
                             if (it.session != null) {
-                                adapter?.addData(0, it.session!!)
+                                adapter?.add(0, it.session!!)
                             }
                         }
 //                        1 -> {

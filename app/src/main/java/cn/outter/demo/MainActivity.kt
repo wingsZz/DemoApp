@@ -11,13 +11,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import cn.outter.demo.base.BaseVmVbActivity
 import cn.outter.demo.conversation.ConversationActivity
-import cn.outter.demo.conversation.ConversionFragment
 import cn.outter.demo.databinding.ActivityMainBinding
 import cn.outter.demo.session.SessionFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
 
 class MainActivity : BaseVmVbActivity<MainViewModel, ActivityMainBinding>() {
     private var adapter: FragmentPagerAdapter? = null
@@ -66,16 +65,6 @@ class MainActivity : BaseVmVbActivity<MainViewModel, ActivityMainBinding>() {
                 val customTabView = layoutInflater.inflate(R.layout.item_main_tab, null)
                 val tabLabel = customTabView.findViewById<TextView>(R.id.tabLabel)
                 tabLabel.text = tabs[position]
-//                int[][] states = new int[2][];
-//                states[0] = new int[]{android.R.attr.state_selected};
-//                states[1] = new int[]{};
-//
-//                int[] colors = new int[]{activeColor, normalColor};
-//                ColorStateList colorStateList = new ColorStateList(states, colors);
-//                customTabView.setText(tabs[position]);
-//                customTabView.setTextSize(normalSize);
-//                customTabView.setTextColor(colorStateList);
-
                 tab.customView = customTabView
             }
         })
@@ -84,10 +73,6 @@ class MainActivity : BaseVmVbActivity<MainViewModel, ActivityMainBinding>() {
         Handler().postDelayed({
 //            DatabaseMockUtil.mockMessage()
         },1000)
-
-        mViewBind.toConversation.setOnClickListener {
-            startActivity(Intent(this,ConversationActivity::class.java))
-        }
     }
 
     override fun showLoading(message: String) {

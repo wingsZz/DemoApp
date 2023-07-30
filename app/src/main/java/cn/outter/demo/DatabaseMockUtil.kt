@@ -52,7 +52,7 @@ object DatabaseMockUtil {
                 msg.content = "哈哈哈哈$i"
                 val map = HashMap<String,Any>()
                 map.put("content",msg.toString())
-                val message = Message(1,map,MsgType.TXT,"1","1",System.currentTimeMillis())
+                val message = Message("1",map,MsgType.TXT,"1","1",System.currentTimeMillis())
                 messages.add(message)
             } else {
                 val msg = ImgMsg()
@@ -63,7 +63,7 @@ object DatabaseMockUtil {
                 msg.imageLocalPath = "local_$i"
                 val map = HashMap<String,Any>()
                 map.put("content",msg.toString())
-                val message = Message(1,map,MsgType.TXT,"1","1",System.currentTimeMillis())
+                val message = Message("1",map,MsgType.PIC,"1","1",System.currentTimeMillis())
                 messages.add(message)
             }
         }

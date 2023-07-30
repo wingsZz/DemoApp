@@ -1,7 +1,7 @@
 package cn.outter.demo
 
-import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
+import cn.outter.demo.base.BaseViewModel
 
-class MainViewModel:BaseViewModel() {
+class MainViewModel: BaseViewModel() {
 
 }

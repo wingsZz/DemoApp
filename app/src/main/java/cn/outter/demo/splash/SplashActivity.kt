@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import cn.outter.demo.MainActivity
 import cn.outter.demo.account.LoginActivity
+import cn.outter.demo.account.RegisterActivity
 import cn.outter.demo.databinding.OutterActSplashBinding
 import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel

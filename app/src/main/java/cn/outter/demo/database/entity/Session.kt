@@ -19,4 +19,8 @@ data class Session(
 
     @ColumnInfo(name = "user_info")
     var userInfo: UserInfo
-):java.io.Serializable
+):java.io.Serializable {
+    override fun toString(): String {
+        return "Session(id='$id', lastMessageContent='$lastMessageContent', lastMessageTime=$lastMessageTime, userInfo=$userInfo)"
+    }
+}

@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.WindowManager
 import cn.outter.demo.R
+import cn.outter.demo.base.BaseViewModel
+import cn.outter.demo.base.BaseVmVbActivity
 import cn.outter.demo.databinding.OutterActivityConversationBinding
-import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
-import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
+import com.gyf.immersionbar.ImmersionBar
 
 class ConversationActivity : BaseVmVbActivity<BaseViewModel, OutterActivityConversationBinding>() {
     private var conversationFragment: ConversionFragment? = null
@@ -22,16 +23,24 @@ class ConversationActivity : BaseVmVbActivity<BaseViewModel, OutterActivityConve
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN or WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    }
+
+    override fun initImmersionBar() {
+        ImmersionBar.with(this).statusBarColor(android.R.color.white).init()
+        ImmersionBar.with(this)
+            .statusBarColor(android.R.color.white)
+            .keyboardEnable(true,WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+            .init()
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-//        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-//        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         conversationFragment = ConversionFragment()
         val bundle = Bundle()
         bundle.putAll(intent.extras)
         conversationFragment?.arguments = bundle
-        supportFragmentManager.beginTransaction().add(R.id.container,conversationFragment!!,"").commit()
+        supportFragmentManager.beginTransaction().add(R.id.container, conversationFragment!!, "")
+            .commit()
     }
 
     override fun showLoading(message: String) {
