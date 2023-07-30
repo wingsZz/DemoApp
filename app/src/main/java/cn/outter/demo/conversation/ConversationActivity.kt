@@ -27,9 +27,9 @@ class ConversationActivity : BaseVmVbActivity<BaseViewModel, OutterActivityConve
     }
 
     override fun initImmersionBar() {
-        ImmersionBar.with(this).statusBarColor(android.R.color.white).init()
         ImmersionBar.with(this)
             .statusBarColor(android.R.color.white)
+            .navigationBarColor(R.color.white)
             .keyboardEnable(true,WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
             .init()
     }

@@ -2,6 +2,7 @@ package cn.outter.demo.splash
 
 import androidx.lifecycle.MutableLiveData
 import cn.outter.demo.DataCacheInMemory
+import cn.outter.demo.base.BaseViewModel
 import cn.outter.demo.bean.User
 import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
@@ -9,7 +10,6 @@ import io.reactivex.Flowable
 import io.reactivex.FlowableSubscriber
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 import org.reactivestreams.Subscription
 
 class SplashViewModel : BaseViewModel() {

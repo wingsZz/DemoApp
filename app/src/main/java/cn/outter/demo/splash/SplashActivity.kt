@@ -6,20 +6,26 @@ import android.os.Bundle
 import cn.outter.demo.MainActivity
 import cn.outter.demo.account.LoginActivity
 import cn.outter.demo.account.RegisterActivity
+import cn.outter.demo.base.BaseVmVbActivity
 import cn.outter.demo.databinding.OutterActSplashBinding
-import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
-import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
+import com.gyf.immersionbar.ImmersionBar
 
 @SuppressLint("CustomSplashScreen")
-class SplashActivity:BaseVmVbActivity<SplashViewModel,OutterActSplashBinding>() {
+class SplashActivity: BaseVmVbActivity<SplashViewModel, OutterActSplashBinding>() {
     override fun createObserver() {
         mViewModel.userLiveData.observe(this) {
-//            if (it == null) {
+            mViewBind.root.postDelayed({
+                //            if (it == null) {
 //                startActivity(Intent(this,LoginActivity::class.java))
 //            } else {
                 startActivity(Intent(this,MainActivity::class.java))
 //            }
+            },1500)
         }
+    }
+
+    override fun initImmersionBar() {
+        ImmersionBar.with(this).transparentStatusBar().transparentNavigationBar().init()
     }
 
     override fun dismissLoading() {

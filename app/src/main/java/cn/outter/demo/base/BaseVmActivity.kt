@@ -51,7 +51,8 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
      */
     protected open fun initImmersionBar() {
         //设置共同沉浸式样式
-        ImmersionBar.with(this).statusBarColor(android.R.color.white).fitsSystemWindows(true).init()
+        ImmersionBar.with(this).statusBarColor(android.R.color.white)
+            .navigationBarColor(R.color.white).fitsSystemWindows(true).init()
     }
 
     /**
