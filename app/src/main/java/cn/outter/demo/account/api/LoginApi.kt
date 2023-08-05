@@ -3,15 +3,15 @@ package cn.outter.demo.account.api
 import com.hjq.http.config.IRequestApi
 
 class LoginApi : IRequestApi {
-    private var account: String = ""
+    private var userName: String = ""
     private var password: String = ""
 
     override fun getApi(): String {
-        return ""
+        return "/api/client/login"
     }
 
-    fun setAccount(account: String): LoginApi {
-        this.account = account
+    fun setUSerName(userName: String): LoginApi {
+        this.userName = userName
         return this
     }
 

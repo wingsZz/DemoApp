@@ -1,12 +1,23 @@
 package cn.outter.demo.account
 
 import android.os.Bundle
+import android.util.Log
+import cn.outter.demo.DataCacheInMemory
 import cn.outter.demo.databinding.OutterActSignupBinding
+import com.hjq.http.EasyConfig
+import com.hjq.toast.ToastUtils
 import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
 
 class RegisterActivity:BaseVmVbActivity<RegisterViewModel,OutterActSignupBinding>() {
     override fun createObserver() {
-
+        mViewModel.userLiveData.observe(this) {
+            if (it == null || it.token.isNullOrEmpty()) {
+                Log.d("Register","注册失败")
+            } else {
+                DataCacheInMemory.refreshMine(it)
+                EasyConfig.getInstance().addHeader("token",it.token)
+            }
+        }
     }
 
     override fun dismissLoading() {
@@ -22,6 +33,7 @@ class RegisterActivity:BaseVmVbActivity<RegisterViewModel,OutterActSignupBinding
                 return@setOnClickListener
             }
 
+            mViewModel.registerAccount(account,password,this@RegisterActivity)
         }
     }
 

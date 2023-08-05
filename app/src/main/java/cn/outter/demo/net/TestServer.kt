@@ -4,6 +4,6 @@ import com.hjq.http.config.IRequestServer
 
 class TestServer:IRequestServer {
     override fun getHost(): String {
-        return ""
+        return "https://test-chat.chengbro.com"
     }
 }

@@ -36,30 +36,28 @@ class OutterApp : Application() {
         } else {
             server = ReleaseServer()
         }
-//        val okHttpClient = OkHttpClient.Builder()
-//            .build()
-//        EasyConfig.with(okHttpClient) // 是否打印日志
-//            .setLogEnabled(BuildConfig.DEBUG)
-//            // 设置服务器配置（必须设置）
-//            .setServer(server) // 设置请求处理策略（必须设置）
-//            .setHandler(RequestHandler(this)) // 设置请求参数拦截器
-//            .setInterceptor(object : IRequestInterceptor {
-//                override fun interceptArguments(
-//                    httpRequest: HttpRequest<*>,
-//                    params: HttpParams,
-//                    headers: HttpHeaders
-//                ) {
-//                    headers.put(
-//                        "timestamp",
-//                        System.currentTimeMillis().toString()
-//                    )
-//                }
-//
-//            }) // 设置请求重试次数
-//            .setRetryCount(1) // 设置请求重试时间
-//            .setRetryTime(2000) // 添加全局请求参数
-//            .addParam("token", "6666666") // 添加全局请求头
-//            //.addHeader("date", "20191030")
-//            .into()
+        val okHttpClient = OkHttpClient.Builder()
+            .build()
+        EasyConfig.with(okHttpClient) // 是否打印日志
+            .setLogEnabled(BuildConfig.DEBUG)
+            // 设置服务器配置（必须设置）
+            .setServer(server) // 设置请求处理策略（必须设置）
+            .setHandler(RequestHandler(this)) // 设置请求参数拦截器
+            .setInterceptor(object : IRequestInterceptor {
+                override fun interceptArguments(
+                    httpRequest: HttpRequest<*>,
+                    params: HttpParams,
+                    headers: HttpHeaders
+                ) {
+                    headers.put(
+                        "timestamp",
+                        System.currentTimeMillis().toString()
+                    )
+                }
+
+            }) // 设置请求重试次数
+            .setRetryCount(1) // 设置请求重试时间
+            .setRetryTime(2000) // 添加全局请求参数
+            .into()
     }
 }
