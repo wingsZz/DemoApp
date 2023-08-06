@@ -10,6 +10,7 @@ import com.hjq.http.config.IRequestServer
 import com.hjq.http.model.HttpHeaders
 import com.hjq.http.model.HttpParams
 import com.hjq.http.request.HttpRequest
+import com.hjq.toast.ToastUtils
 import com.tencent.mmkv.MMKV
 import okhttp3.OkHttpClient
 
@@ -25,6 +26,8 @@ class OutterApp : Application() {
         super.onCreate()
         application = this
         MMKV.initialize(this)
+
+        ToastUtils.init(this)
 
         initNet()
     }

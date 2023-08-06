@@ -12,6 +12,7 @@ import android.view.View.OnTouchListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Orientation
+import cn.outter.demo.DataCacheInMemory
 import cn.outter.demo.R
 import cn.outter.demo.base.BaseVmVbFragment
 import cn.outter.demo.bean.User
@@ -23,15 +24,16 @@ import cn.outter.demo.keyboard.util.KeyboardUtil
 class ConversionFragment :
     BaseVmVbFragment<ConversationViewModel, OutterFragmentConversationBinding>() {
 
-    private var session:Session? = null
-    private var toUserId:String = ""
+    private var session: Session? = null
+    private var toUserId: String = ""
+    private val mine = DataCacheInMemory.mine
 
-    private var adapter:MessageAdapter? = null
+    private var adapter: MessageAdapter? = null
 
     override fun createObserver() {
         mViewModel.sessionLiveData.observe(this) {
             if (session != null && session?.id?.isNotEmpty() == true) {
-                mViewModel.getConversations(session!!.id,System.currentTimeMillis())
+                mViewModel.getConversations(session!!.id, System.currentTimeMillis())
             } else {
 
             }
@@ -79,18 +81,32 @@ class ConversionFragment :
             }
             false
         })
+        mViewBind.toolBar.send.setOnClickListener {
+            val text = mViewBind.toolBar.sendEdt.text.toString()
+            val message = MsgFactory.createTxtMsg(text, toUserId, mine?.id?.toString() ?: "0")
+            mViewModel.sendTxtMessage(
+                text, message, this@ConversionFragment
+            )
+            mViewBind.toolBar.sendEdt.setText("")
+            adapter?.add(message)
+            mViewBind.messageListView.contentRyv.scrollToPosition((adapter?.items?.size?:0) - 1)
+        }
 
         adapter = MessageAdapter()
-        mViewBind.messageListView.contentRyv.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,true)
+        mViewBind.messageListView.contentRyv.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, true)
         mViewBind.messageListView.contentRyv.adapter = adapter
 
         mViewBind.messageListView.refreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189))
-        mViewBind.messageListView.refreshLayout.setOnRefreshListener{
+        mViewBind.messageListView.refreshLayout.setOnRefreshListener {
             if (adapter?.items?.isEmpty() == true) {
                 mViewBind.messageListView.refreshLayout.isRefreshing = false
             }
 
-            mViewModel.getConversations(session?.id?:"",adapter?.items?.get((adapter?.itemCount?:0) - 1)?.sendTime?: -1)
+            mViewModel.getConversations(
+                session?.id ?: "",
+                adapter?.items?.get((adapter?.itemCount ?: 0) - 1)?.sendTime ?: -1
+            )
         }
     }
 
@@ -101,11 +117,11 @@ class ConversionFragment :
 //            return
 //        }
         session = arguments?.get("session") as Session?
-        toUserId = arguments?.getString("toUserId")?: ""
+        toUserId = arguments?.getString("toUserId") ?: ""
         if (session == null) {
             mViewModel.getSession(toUserId)
         } else {
-            mViewModel.getConversations(session!!.id,System.currentTimeMillis())
+            mViewModel.getConversations(session!!.id, System.currentTimeMillis())
         }
     }
 

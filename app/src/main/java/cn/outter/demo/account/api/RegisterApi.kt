@@ -23,7 +23,9 @@ class RegisterApi : IRequestApi {
 
     data class RegisterRequest(
         var userName:String = "",
-        var password:String = ""
+        var password:String = "",
+        var gender:Int = 0,
+        var birthday:String = ""
     ):Serializable {
         
     }

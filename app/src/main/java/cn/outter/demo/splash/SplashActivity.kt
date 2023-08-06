@@ -11,16 +11,16 @@ import cn.outter.demo.databinding.OutterActSplashBinding
 import com.gyf.immersionbar.ImmersionBar
 
 @SuppressLint("CustomSplashScreen")
-class SplashActivity: BaseVmVbActivity<SplashViewModel, OutterActSplashBinding>() {
+class SplashActivity : BaseVmVbActivity<SplashViewModel, OutterActSplashBinding>() {
     override fun createObserver() {
         mViewModel.userLiveData.observe(this) {
             mViewBind.root.postDelayed({
-                //            if (it == null) {
-//                startActivity(Intent(this,LoginActivity::class.java))
-//            } else {
-                startActivity(Intent(this,RegisterActivity::class.java))
-//            }
-            },1500)
+                if (it == null) {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                } else {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+            }, 1500)
         }
     }
 

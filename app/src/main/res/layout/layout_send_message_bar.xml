@@ -17,6 +17,7 @@
             android:id="@+id/send_edt"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginEnd="40dp"
             android:background="@drawable/chatting_edit_bg"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
@@ -28,10 +29,17 @@
             tools:ignore="TextFields" />
 
     <ImageView
-            android:id="@+id/plusIv"
+            android:id="@+id/send"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="end|center_vertical"
             android:src="@drawable/chat_icon_send_message"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="48dp"/>
+
+    <ImageView
+            android:id="@+id/plusIv"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end|center_vertical"
+            android:src="@drawable/chat_icon_send_message" />
 </FrameLayout>

@@ -2,6 +2,6 @@ package cn.outter.demo.bean
 
 data class User(
     var id:Long,
-    var userName:String = "",
+    var username:String = "",
     var token:String? = ""
 )

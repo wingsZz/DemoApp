@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import cn.outter.demo.base.BaseVmVbActivity
 import cn.outter.demo.conversation.ConversationActivity
 import cn.outter.demo.databinding.ActivityMainBinding
+import cn.outter.demo.find.FindFragment
 import cn.outter.demo.session.SessionFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -83,7 +84,7 @@ class MainActivity : BaseVmVbActivity<MainViewModel, ActivityMainBinding>() {
         FragmentStateAdapter(fragmentActivity) {
         private val fragments = Array<Fragment>(3) {
             when (it) {
-                0 -> SessionFragment()
+                0 -> FindFragment()
                 1 -> SessionFragment()
                 2 -> SessionFragment()
                 else -> SessionFragment()

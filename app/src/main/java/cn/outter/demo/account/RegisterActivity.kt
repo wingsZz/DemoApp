@@ -3,12 +3,12 @@ package cn.outter.demo.account
 import android.os.Bundle
 import android.util.Log
 import cn.outter.demo.DataCacheInMemory
+import cn.outter.demo.base.BaseVmVbActivity
 import cn.outter.demo.databinding.OutterActSignupBinding
 import com.hjq.http.EasyConfig
 import com.hjq.toast.ToastUtils
-import me.hgj.jetpackmvvm.base.activity.BaseVmVbActivity
 
-class RegisterActivity:BaseVmVbActivity<RegisterViewModel,OutterActSignupBinding>() {
+class RegisterActivity: BaseVmVbActivity<RegisterViewModel, OutterActSignupBinding>() {
     override fun createObserver() {
         mViewModel.userLiveData.observe(this) {
             if (it == null || it.token.isNullOrEmpty()) {
@@ -17,6 +17,10 @@ class RegisterActivity:BaseVmVbActivity<RegisterViewModel,OutterActSignupBinding
                 DataCacheInMemory.refreshMine(it)
                 EasyConfig.getInstance().addHeader("token",it.token)
             }
+        }
+
+        mViewModel.errorMessageLiveData.observe(this) {
+            ToastUtils.show(it)
         }
     }
 

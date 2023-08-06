@@ -7,13 +7,13 @@ import com.tencent.mmkv.MMKV
 object DataCacheInMemory {
     val MINE_KEY = "otter_user_mine"
 
-    var mine: User? = Gson().fromJson(MMKV.defaultMMKV().getString("", ""), User::class.java)
+    var mine: User? = null
 
     fun refreshMine(user: User?) {
         if (user == null) {
             return
         }
         mine = user
-        MMKV.defaultMMKV().putString("", Gson().toJson(mine))
+        MMKV.defaultMMKV().putString(MINE_KEY, Gson().toJson(mine))
     }
 }
