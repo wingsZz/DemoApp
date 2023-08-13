@@ -18,6 +18,8 @@ import cn.outter.demo.base.BaseVmVbFragment
 import cn.outter.demo.bean.User
 import cn.outter.demo.database.entity.Session
 import cn.outter.demo.databinding.OutterFragmentConversationBinding
+import cn.outter.demo.keyboard.INativeKeyboardCallback
+import cn.outter.demo.keyboard.NativeKeyboard
 import cn.outter.demo.keyboard.util.KPSwitchConflictUtil
 import cn.outter.demo.keyboard.util.KeyboardUtil
 
@@ -52,55 +54,97 @@ class ConversionFragment :
     override fun initView(savedInstanceState: Bundle?) {
 
         // ********* Above code Just for Demo Test, do not need to adapt in your code. ************
-        KeyboardUtil.attach(activity,
-            mViewBind.panelRoot, { isShowing ->
-                Log.d(
-                    "KeyBoard",
-                    String.format("Keyboard is %s", if (isShowing) "showing" else "hiding")
-                )
-            })
+//        KeyboardUtil.attach(activity,
+//            mViewBind.panelRoot, { isShowing ->
+//                Log.d(
+//                    "KeyBoard",
+//                    String.format("Keyboard is %s", if (isShowing) "showing" else "hiding")
+//                )
+//            })
+//
+//
+//        // In the normal case.
+//        KPSwitchConflictUtil.attach(
+//            mViewBind.panelRoot,
+//            mViewBind.toolBar.plusIv,
+//            mViewBind.toolBar.sendEdt
+//        )
+//        { view, switchToPanel ->
+//            if (switchToPanel) {
+//                mViewBind.toolBar.sendEdt.clearFocus()
+//            } else {
+//                mViewBind.toolBar.sendEdt.requestFocus()
+//            }
+//        }
 
+        NativeKeyboard.initialize(object : INativeKeyboardCallback {
+            override fun OnTextEditUpdate(
+                text: String?,
+                selectionStartPosition: Int,
+                selectionEndPosition: Int
+            ) {
 
-        // In the normal case.
-        KPSwitchConflictUtil.attach(
-            mViewBind.panelRoot,
-            mViewBind.toolBar.plusIv,
-            mViewBind.toolBar.sendEdt
-        )
-        { view, switchToPanel ->
-            if (switchToPanel) {
-                mViewBind.toolBar.sendEdt.clearFocus()
-            } else {
-                mViewBind.toolBar.sendEdt.requestFocus()
             }
-        }
 
-        mViewBind.messageListView.contentRyv.setOnTouchListener(OnTouchListener { view, motionEvent ->
-            if (motionEvent.action == MotionEvent.ACTION_UP) {
-                KPSwitchConflictUtil.hidePanelAndKeyboard(mViewBind.panelRoot)
+            override fun OnAutofillUpdate(text: String?, autofillType: Int) {
+
             }
-            false
-        })
-        mViewBind.toolBar.send.setOnClickListener {
-            val text = mViewBind.toolBar.sendEdt.text.toString()
-            val message = MsgFactory.createTxtMsg(text, toUserId, mine?.id?.toString() ?: "0")
-            mViewModel.sendTxtMessage(
-                text, message, this@ConversionFragment
-            )
-            mViewBind.toolBar.sendEdt.setText("")
-            adapter?.add(message)
-            mViewBind.messageListView.contentRyv.scrollToPosition((adapter?.items?.size?:0) - 1)
-        }
+
+            override fun OnKeyboardShow(height: Int) {
+            }
+
+            override fun OnKeyboardHide(reason: Int) {
+            }
+
+            override fun OnKeyboardDone() {
+            }
+
+            override fun OnKeyboardNext() {
+            }
+
+            override fun OnKeyboardCancel() {
+            }
+
+            override fun OnSpecialKeyPressed(specialKeyCode: Int) {
+            }
+
+            override fun OnKeyboardHeightChanged(height: Int) {
+            }
+
+            override fun OnHardwareKeyboardChanged(connected: Boolean) {
+            }
+
+            override fun OnKeyboardSendClick() {
+            }
+
+        }, this)
+//        mViewBind.messageListView.contentRyv.setOnTouchListener(OnTouchListener { view, motionEvent ->
+//            if (motionEvent.action == MotionEvent.ACTION_UP) {
+//                KPSwitchConflictUtil.hidePanelAndKeyboard(mViewBind.panelRoot)
+//            }
+//            false
+//        })
+//        mViewBind.toolBar.send.setOnClickListener {
+//            val text = mViewBind.toolBar.sendEdt.text.toString()
+//            val message = MsgFactory.createTxtMsg(text, toUserId, mine?.id?.toString() ?: "0")
+//            mViewModel.sendTxtMessage(
+//                text, message, this@ConversionFragment
+//            )
+//            mViewBind.toolBar.sendEdt.setText("")
+//            adapter?.add(message)
+//            mViewBind.messageListView.contentRyv.scrollToPosition((adapter?.items?.size ?: 0) - 1)
+//        }
 
         adapter = MessageAdapter()
         mViewBind.messageListView.contentRyv.layoutManager =
-            LinearLayoutManager(context, RecyclerView.VERTICAL, true)
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         mViewBind.messageListView.contentRyv.adapter = adapter
 
         mViewBind.messageListView.refreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189))
         mViewBind.messageListView.refreshLayout.setOnRefreshListener {
             if (adapter?.items?.isEmpty() == true) {
                 mViewBind.messageListView.refreshLayout.isRefreshing = false
+                return@setOnRefreshListener
             }
 
             mViewModel.getConversations(
@@ -134,10 +178,10 @@ class ConversionFragment :
     }
 
     fun dispatchKeyEvent(event: KeyEvent?): Boolean {
-        if (event!!.action == KeyEvent.ACTION_UP && event.keyCode == KeyEvent.KEYCODE_BACK) {
-            KPSwitchConflictUtil.hidePanelAndKeyboard(mViewBind.panelRoot)
-            return true
-        }
+//        if (event!!.action == KeyEvent.ACTION_UP && event.keyCode == KeyEvent.KEYCODE_BACK) {
+//            KPSwitchConflictUtil.hidePanelAndKeyboard(mViewBind.panelRoot)
+//            return true
+//        }
         return false
     }
 }

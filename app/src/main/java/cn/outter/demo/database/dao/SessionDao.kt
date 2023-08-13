@@ -15,7 +15,7 @@ abstract class SessionDao {
 
     @Transaction
     @Query("select * from outter_sessions where id = :sessionId")
-    abstract fun querySession(sessionId:String):Maybe<Session?>
+    abstract fun querySession(sessionId:String):Single<Session?>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)

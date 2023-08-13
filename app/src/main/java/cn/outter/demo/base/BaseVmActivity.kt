@@ -25,13 +25,13 @@ abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
     abstract fun dismissLoading()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initImmersionBar()
         super.onCreate(savedInstanceState)
         initDataBind().notNull({
             setContentView(it)
         }, {
             setContentView(layoutId())
         })
-        initImmersionBar()
         init(savedInstanceState)
     }
 

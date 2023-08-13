@@ -13,13 +13,4 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"/>
 
-    <ImageView
-            android:id="@+id/like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/userPic"
-            app:layout_constraintBottom_toBottomOf="@id/userPic"
-            android:src="@drawable/find_icon_like" />
 </androidx.constraintlayout.widget.ConstraintLayout>

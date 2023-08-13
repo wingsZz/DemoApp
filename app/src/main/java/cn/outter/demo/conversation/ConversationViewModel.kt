@@ -20,6 +20,8 @@ import io.reactivex.MaybeObserver
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Action
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
@@ -36,20 +38,35 @@ class ConversationViewModel : BaseViewModel() {
 
     fun getSession(toUserId: String) {
         // ${mine?.id}_${toUserId}
+        //object : MaybeObserver<Session?> {
+        //                override fun onSubscribe(d: Disposable) {
+        //                    Log.d(TAG, "onSubscribe")
+        //                }
+        //
+        //                override fun onError(e: Throwable) {
+        //                    createSession(toUserId)
+        //                }
+        //
+        //                override fun onComplete() {
+        //                    Log.d(TAG, "onComplete")
+        //                }
+        //
+        //                override fun onSuccess(t: Session) {
+        //                    Log.d(TAG, "query session result = $t")
+        //                    sessionLiveData.value = t
+        //                }
+        //            }
         ChatDataBaseDelegate.db.sessions().querySession("1")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : MaybeObserver<Session?> {
+            .subscribe(object : SingleObserver<Session?> {
                 override fun onSubscribe(d: Disposable) {
-
+                    Log.d(TAG, "onSubscribe")
                 }
 
                 override fun onError(e: Throwable) {
+                    Log.d(TAG, "onError")
                     createSession(toUserId)
-                }
-
-                override fun onComplete() {
-
                 }
 
                 override fun onSuccess(t: Session) {
@@ -62,7 +79,7 @@ class ConversationViewModel : BaseViewModel() {
     fun createSession(toUserId: String) {
         // ${mine?.id}_${toUserId}
         val session = Session("1", "", System.currentTimeMillis(), UserInfo("", "", ""))
-        ChatDataBaseDelegate.db.sessions().insertSession()
+        ChatDataBaseDelegate.db.sessions().insertSession(session)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : SingleObserver<List<Long>?> {
@@ -114,21 +131,21 @@ class ConversationViewModel : BaseViewModel() {
     }
 
     fun sendTxtMessage(text: String, message: Message, lifecycleOwner: LifecycleOwner) {
-        val txtMsgMap = mapOf(Pair("text",text))
-        val chatRequest = ChatApi.ChatRequest(message.toId,"TEXT",txtMsgMap)
+        val txtMsgMap = mapOf(Pair("text", text))
+        val chatRequest = ChatApi.ChatRequest(message.toId, "TEXT", txtMsgMap)
         ChatDataBaseDelegate.db.messages().insertMessage(message)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.d("DatabaseDebug","haha -> ${it.size}")
+                Log.d("DatabaseDebug", "haha -> ${it.size}")
             }
             ) { t ->
-                Log.d("DatabaseDebug","haha -> ${t.message}")
+                Log.d("DatabaseDebug", "haha -> ${t.message}")
             }
         EasyHttp.post(lifecycleOwner)
             .api(chatApi)
             .json(Gson().toJson(chatRequest))
-            .request(object :OnHttpListener<HttpData<ChatApi.ChatResponse?>> {
+            .request(object : OnHttpListener<HttpData<ChatApi.ChatResponse?>> {
                 override fun onHttpSuccess(result: HttpData<ChatApi.ChatResponse?>?) {
 
                 }
@@ -141,12 +158,12 @@ class ConversationViewModel : BaseViewModel() {
     }
 
     fun sendPicMessage(imagePath: String, toUserId: String, lifecycleOwner: LifecycleOwner) {
-        val picMsgMap = mapOf(Pair("imageUrl",imagePath))
-        val chatRequest = ChatApi.ChatRequest(toUserId,"PIC",picMsgMap)
+        val picMsgMap = mapOf(Pair("imageUrl", imagePath))
+        val chatRequest = ChatApi.ChatRequest(toUserId, "PIC", picMsgMap)
         EasyHttp.post(lifecycleOwner)
             .api(chatApi)
             .json(Gson().toJson(chatRequest))
-            .request(object :OnHttpListener<HttpData<ChatApi.ChatResponse?>> {
+            .request(object : OnHttpListener<HttpData<ChatApi.ChatResponse?>> {
                 override fun onHttpSuccess(result: HttpData<ChatApi.ChatResponse?>?) {
 
                 }

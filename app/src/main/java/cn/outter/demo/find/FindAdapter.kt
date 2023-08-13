@@ -29,9 +29,9 @@ class FindAdapter(list: MutableList<FindUserApi.FindUser>) :
 
         Glide.with(holder.viewBinding.userPic).load(item.photoUrl).into(holder.viewBinding.userPic)
 
-        holder.viewBinding.like.setOnClickListener {
-            onLikeClick?.onLikeClick(item)
-        }
+//        holder.viewBinding.like.setOnClickListener {
+//            onLikeClick?.onLikeClick(item)
+//        }
     }
 
     override fun onCreateViewHolder(

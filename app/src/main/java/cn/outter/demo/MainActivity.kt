@@ -23,6 +23,8 @@ class MainActivity : BaseVmVbActivity<MainViewModel, ActivityMainBinding>() {
     private var adapter: FragmentPagerAdapter? = null
     private var tabLayoutMediator: TabLayoutMediator? = null
     private val tabs = arrayOf("发现", "聊天", "主页")
+    private val selectedIcons = arrayOf(R.drawable.main_icon_love_select,R.drawable.main_icon_session_unselect,R.drawable.main_icon_setting_unselect)
+    private val unselectedIcons = arrayOf(R.drawable.main_icon_love_select,R.drawable.main_icon_session_unselect,R.drawable.main_icon_setting_unselect)
 
     private val pageChangeCallback = object : OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -34,10 +36,12 @@ class MainActivity : BaseVmVbActivity<MainViewModel, ActivityMainBinding>() {
                     if (tabView != null) {
                         val tabLabel = tabView.findViewById<TextView>(R.id.tabLabel)
                         val tabIcon = tabView.findViewById<ImageView>(R.id.tabIcon)
-                        if (tab.position == position) {
-                            tabLabel.setTypeface(Typeface.DEFAULT_BOLD);
+                        if (i == position) {
+                            tabLabel.setTypeface(Typeface.DEFAULT_BOLD)
+                            tabIcon.setImageResource(selectedIcons[i])
                         } else {
-                            tabLabel.setTypeface(Typeface.DEFAULT);
+                            tabLabel.setTypeface(Typeface.DEFAULT)
+                            tabIcon.setImageResource(unselectedIcons[i])
                         }
                     }
                 }

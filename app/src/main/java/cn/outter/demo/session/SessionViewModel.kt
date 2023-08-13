@@ -38,7 +38,7 @@ class SessionViewModel : BaseViewModel() {
                 }
 
                 override fun onSuccess(t: List<Session>) {
-                    Log.d(TAG, "getAllSession onSuccess ---- ")
+                    Log.d(TAG, "getAllSession onSuccess ---- ${t.size}")
                     sessions.value = t
                 }
 

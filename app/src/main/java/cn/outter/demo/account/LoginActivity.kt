@@ -7,12 +7,17 @@ import cn.outter.demo.MainActivity
 import cn.outter.demo.base.BaseVmVbActivity
 import cn.outter.demo.databinding.OutterActLoginBinding
 import com.hjq.http.EasyConfig
+import com.hjq.toast.ToastUtils
 
 class LoginActivity : BaseVmVbActivity<LoginViewModel, OutterActLoginBinding>() {
     override fun createObserver() {
         mViewModel.userLiveData.observe(this) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            if (it != null) {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else {
+                ToastUtils.show("登录失败，请重试")
+            }
         }
     }
 

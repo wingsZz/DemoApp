@@ -23,15 +23,14 @@ class ConversationActivity : BaseVmVbActivity<BaseViewModel, OutterActivityConve
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN or WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
     override fun initImmersionBar() {
-        ImmersionBar.with(this)
-            .statusBarColor(android.R.color.white)
-            .navigationBarColor(R.color.white)
-            .keyboardEnable(true,WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-            .init()
+        super.initImmersionBar()
+//        ImmersionBar.with(this)
+//            .statusBarColor(android.R.color.white)
+//            .navigationBarColor(R.color.white)
+//            .init()
     }
 
     override fun initView(savedInstanceState: Bundle?) {

@@ -81,26 +81,26 @@ object DatabaseMockUtil {
     }
 
     fun getAllSession() {
-        ChatDataBaseDelegate.db.sessions().queryAllSessions()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object :MaybeObserver<List<Session>?> {
-                override fun onSubscribe(d: Disposable) {
-                    Log.d("DatabaseDebug","haha -> --")
-                }
-
-                override fun onError(e: Throwable) {
-                    Log.d("DatabaseDebug","haha -> ---")
-                }
-
-                override fun onComplete() {
-                    Log.d("DatabaseDebug","haha -> ----")
-                }
-
-                override fun onSuccess(t: List<Session>) {
-                    Log.d("DatabaseDebug","haha -> ------")
-                }
-
-            })
+//        ChatDataBaseDelegate.db.sessions().queryAllSessions()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(object :MaybeObserver<List<Session>?> {
+//                override fun onSubscribe(d: Disposable) {
+//                    Log.d("DatabaseDebug","haha -> --")
+//                }
+//
+//                override fun onError(e: Throwable) {
+//                    Log.d("DatabaseDebug","haha -> ---")
+//                }
+//
+//                override fun onComplete() {
+//                    Log.d("DatabaseDebug","haha -> ----")
+//                }
+//
+//                override fun onSuccess(t: List<Session>) {
+//                    Log.d("DatabaseDebug","haha -> ------")
+//                }
+//
+//            })
     }
 }

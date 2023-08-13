@@ -51,7 +51,7 @@ public class CardSetting {
     }
 
     public boolean isLoopCard() {
-        return true;
+        return false;
     }
 
     public int getSwipeOutAnimDuration() {
