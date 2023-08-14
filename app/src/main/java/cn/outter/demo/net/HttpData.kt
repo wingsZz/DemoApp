@@ -45,5 +45,5 @@ class HttpData<T> {
      * 是否 Token 失效
      */
     val isTokenInvalidation: Boolean
-        get() = this.code == 1001
+        get() = this.code == 3002
 }

@@ -120,7 +120,7 @@ class RequestHandler(private val mApplication: Application?) : IRequestHandler {
                 // 登录信息失效，跳转到登录页
                 if (mApplication != null) {
                     val intent = Intent(mApplication, LoginActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     mApplication.startActivity(intent)
                 }
             }

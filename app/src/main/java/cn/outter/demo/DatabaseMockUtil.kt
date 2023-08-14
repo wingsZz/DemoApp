@@ -2,30 +2,21 @@ package cn.outter.demo
 
 import android.util.Log
 import cn.outter.demo.database.ChatDataBaseDelegate
-import cn.outter.demo.database.entity.BaseMessage
 import cn.outter.demo.database.entity.ImgMsg
 import cn.outter.demo.database.entity.Message
 import cn.outter.demo.database.entity.MsgType
 import cn.outter.demo.database.entity.Session
 import cn.outter.demo.database.entity.TxtMsg
-import cn.outter.demo.database.entity.UserInfo
-import io.reactivex.FlowableSubscriber
-import io.reactivex.MaybeObserver
-import io.reactivex.SingleObserver
+import cn.outter.demo.database.entity.ChatUser
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-import org.reactivestreams.Subscription
-import timber.log.Timber
-import kotlin.random.Random
 
 object DatabaseMockUtil {
     fun mockSession() {
         val sessions = ArrayList<Session>(100)
         for (i in 0 until 100) {
-            val userInfo = UserInfo(i.toString(), "name_$i", "url_$i")
-            val session = Session(i.toString(),"",System.currentTimeMillis(), userInfo)
+            val chatUser = ChatUser(i.toString(), "name_$i", "url_$i")
+            val session = Session(i.toString(),"",System.currentTimeMillis(), chatUser)
             sessions.add(session)
         }
 

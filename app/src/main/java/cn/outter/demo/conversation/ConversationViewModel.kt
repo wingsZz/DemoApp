@@ -4,14 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import cn.outter.demo.DataCacheInMemory
-import cn.outter.demo.DatabaseMockUtil
 import cn.outter.demo.base.BaseViewModel
-import cn.outter.demo.bean.User
 import cn.outter.demo.conversation.api.ChatApi
 import cn.outter.demo.database.ChatDataBaseDelegate
 import cn.outter.demo.database.entity.Message
 import cn.outter.demo.database.entity.Session
-import cn.outter.demo.database.entity.UserInfo
+import cn.outter.demo.database.entity.ChatUser
 import cn.outter.demo.net.HttpData
 import com.google.gson.Gson
 import com.hjq.http.EasyHttp
@@ -20,8 +18,6 @@ import io.reactivex.MaybeObserver
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
@@ -56,7 +52,7 @@ class ConversationViewModel : BaseViewModel() {
         //                    sessionLiveData.value = t
         //                }
         //            }
-        ChatDataBaseDelegate.db.sessions().querySession("1")
+        ChatDataBaseDelegate.db.sessions().querySession("${mine?.id}_${toUserId}")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : SingleObserver<Session?> {
@@ -77,8 +73,8 @@ class ConversationViewModel : BaseViewModel() {
     }
 
     fun createSession(toUserId: String) {
-        // ${mine?.id}_${toUserId}
-        val session = Session("1", "", System.currentTimeMillis(), UserInfo("", "", ""))
+        val session =
+            Session("${mine?.id}_${toUserId}", "", System.currentTimeMillis(), ChatUser("", "", ""))
         ChatDataBaseDelegate.db.sessions().insertSession(session)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -157,9 +153,18 @@ class ConversationViewModel : BaseViewModel() {
             })
     }
 
-    fun sendPicMessage(imagePath: String, toUserId: String, lifecycleOwner: LifecycleOwner) {
+    fun sendPicMessage(imagePath: String, message: Message, lifecycleOwner: LifecycleOwner) {
         val picMsgMap = mapOf(Pair("imageUrl", imagePath))
-        val chatRequest = ChatApi.ChatRequest(toUserId, "PIC", picMsgMap)
+        val chatRequest = ChatApi.ChatRequest(message.toId, "PIC", picMsgMap)
+        ChatDataBaseDelegate.db.messages().insertMessage(message)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.d("DatabaseDebug", "haha -> ${it.size}")
+            }
+            ) { t ->
+                Log.d("DatabaseDebug", "haha -> ${t.message}")
+            }
         EasyHttp.post(lifecycleOwner)
             .api(chatApi)
             .json(Gson().toJson(chatRequest))

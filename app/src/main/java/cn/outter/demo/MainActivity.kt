@@ -16,6 +16,7 @@ import cn.outter.demo.conversation.ConversationActivity
 import cn.outter.demo.databinding.ActivityMainBinding
 import cn.outter.demo.find.FindFragment
 import cn.outter.demo.session.SessionFragment
+import cn.outter.demo.user.UserFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -90,8 +91,8 @@ class MainActivity : BaseVmVbActivity<MainViewModel, ActivityMainBinding>() {
             when (it) {
                 0 -> FindFragment()
                 1 -> SessionFragment()
-                2 -> SessionFragment()
-                else -> SessionFragment()
+                2 -> UserFragment()
+                else -> FindFragment()
             }
         }
 

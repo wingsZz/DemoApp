@@ -122,6 +122,8 @@ dependencies {
 
     implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
 
+    implementation 'io.github.lucksiege:pictureselector:v3.11.1'
+
     // 测试帮助
     testImplementation "androidx.room:room-testing:$room_version"
 }

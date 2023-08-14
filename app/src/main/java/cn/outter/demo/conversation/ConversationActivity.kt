@@ -45,18 +45,4 @@ class ConversationActivity : BaseVmVbActivity<BaseViewModel, OutterActivityConve
     override fun showLoading(message: String) {
 
     }
-
-    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
-        if (conversationFragment != null) {
-            return conversationFragment?.dispatchKeyEvent(event) ?: super.dispatchKeyEvent(event)
-        }
-        return super.dispatchKeyEvent(event)
-    }
-
-    override fun onMultiWindowModeChanged(isInMultiWindowMode: Boolean, newConfig: Configuration?) {
-        if (conversationFragment != null) {
-            return conversationFragment!!.onMultiWindowModeChanged(isInMultiWindowMode)
-        }
-        super.onMultiWindowModeChanged(isInMultiWindowMode, newConfig)
-    }
 }

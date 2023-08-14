@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import cn.outter.demo.DataCacheInMemory
+import cn.outter.demo.database.entity.ImgMsg
 import cn.outter.demo.database.entity.Message
 import cn.outter.demo.database.entity.MessageContentUtil
 import cn.outter.demo.database.entity.MsgType
@@ -14,6 +15,7 @@ import cn.outter.demo.databinding.OutterItemPicMsgFromMeBinding
 import cn.outter.demo.databinding.OutterItemPicMsgToMeBinding
 import cn.outter.demo.databinding.OutterItemTxtMsgFromMeBinding
 import cn.outter.demo.databinding.OutterItemTxtMsgToMeBinding
+import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseMultiItemAdapter
 
 class MessageAdapter(): BaseMultiItemAdapter<Message>() {
@@ -45,8 +47,11 @@ class MessageAdapter(): BaseMultiItemAdapter<Message>() {
             override fun onBind(holder: PicMessageFromMeViewHolder, position: Int, item: Message?) {
                 if (item == null) return
 
-//                holder.viewBinding.more.visibility = View.GONE
-//                holder.viewBinding.header.text = item.sectionTitle
+                val imgMsg = MessageContentUtil.getMsgContent<ImgMsg>(item)
+                if (imgMsg == null) {
+                    return
+                }
+                Glide.with(holder.viewBinding.content).load(imgMsg.imageLocalPath).circleCrop().into(holder.viewBinding.content)
             }
 
             override fun isFullSpanItem(itemType: Int): Boolean {
@@ -82,6 +87,11 @@ class MessageAdapter(): BaseMultiItemAdapter<Message>() {
 
             override fun onBind(holder: PicMessageToMeViewHolder, position: Int, item: Message?) {
                 if (item == null) return
+                val imgMsg = MessageContentUtil.getMsgContent<ImgMsg>(item)
+                if (imgMsg == null) {
+                    return
+                }
+                Glide.with(holder.viewBinding.content).load(imgMsg.imageLocalPath).circleCrop().into(holder.viewBinding.content)
             }
 
             override fun isFullSpanItem(itemType: Int): Boolean {
@@ -91,15 +101,15 @@ class MessageAdapter(): BaseMultiItemAdapter<Message>() {
         }).onItemViewType { position, list ->
             if (list[position].fromId == (mine?.id ?: "")) {
                 if (list[position].msgType == MsgType.TXT) {
-                    MessageItemType.MESSAGE_TXT_FROM_ME
+                    return@onItemViewType MessageItemType.MESSAGE_TXT_FROM_ME
                 } else if (list[position].msgType == MsgType.PIC) {
-                    MessageItemType.MESSAGE_PIC_FROM_ME
+                    return@onItemViewType MessageItemType.MESSAGE_PIC_FROM_ME
                 }
             } else {
                 if (list[position].msgType == MsgType.TXT) {
-                    MessageItemType.MESSAGE_TXT_TO_ME
+                    return@onItemViewType MessageItemType.MESSAGE_TXT_TO_ME
                 } else if (list[position].msgType == MsgType.PIC) {
-                    MessageItemType.MESSAGE_PIC_TO_ME
+                    return@onItemViewType MessageItemType.MESSAGE_PIC_TO_ME
                 }
             }
             MessageItemType.MESSAGE_TXT_FROM_ME

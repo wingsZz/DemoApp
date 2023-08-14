@@ -18,9 +18,9 @@ data class Session(
     var lastMessageTime:Long,
 
     @ColumnInfo(name = "user_info")
-    var userInfo: UserInfo
+    var chatUser: ChatUser
 ):java.io.Serializable {
     override fun toString(): String {
-        return "Session(id='$id', lastMessageContent='$lastMessageContent', lastMessageTime=$lastMessageTime, userInfo=$userInfo)"
+        return "Session(id='$id', lastMessageContent='$lastMessageContent', lastMessageTime=$lastMessageTime, userInfo=$chatUser)"
     }
 }

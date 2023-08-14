@@ -14,14 +14,14 @@ object MsgFactory {
         return Message("${to}_$from", map, MsgType.TXT, to, from, System.currentTimeMillis())
     }
 
-    fun createPicMsg(localPath:String,imageUrl: String, to: String, from: String):Message {
+    fun createPicMsg(localPath:String,imageUrl: String,width:Int,height:Int, to: String, from: String):Message {
         val imgMsg = ImgMsg()
         imgMsg.msgType = MsgType.PIC
         imgMsg.imageLocalPath = localPath
         imgMsg.imageUrl = imageUrl
-        imgMsg.imageH = 1
-        imgMsg.imageW = 1
+        imgMsg.imageH = height
+        imgMsg.imageW = width
         val map = mapOf<String, Any>(Pair("content", imgMsg.toString()))
-        return Message("${to}_$from", map, MsgType.TXT, to, from, System.currentTimeMillis())
+        return Message("${to}_$from", map, MsgType.PIC, to, from, System.currentTimeMillis())
     }
 }

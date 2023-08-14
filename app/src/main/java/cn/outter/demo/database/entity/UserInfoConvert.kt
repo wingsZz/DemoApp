@@ -7,12 +7,12 @@ import com.google.gson.Gson
 @ProvidedTypeConverter
 class UserInfoConvert {
     @TypeConverter
-    fun fromStringToUserInfo(userInfoJson: String): UserInfo? {
-        return Gson().fromJson(userInfoJson, UserInfo::class.java)
+    fun fromStringToUserInfo(userInfoJson: String): ChatUser? {
+        return Gson().fromJson(userInfoJson, ChatUser::class.java)
     }
 
     @TypeConverter
-    fun fromUserInfoToString(userInfo: UserInfo?): String? {
-        return userInfo?.toString()
+    fun fromUserInfoToString(chatUser: ChatUser?): String? {
+        return chatUser?.toString()
     }
 }

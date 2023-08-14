@@ -34,6 +34,8 @@ public class KeyboardHeightProvider extends PopupWindow {
     /** The cached portrait height of the keyboard */
     private int keyboardPortraitHeight;
 
+    private int lastY;
+
     /** The view that is used to calculate the keyboard height */
     private View popupView;
 
@@ -131,9 +133,6 @@ public class KeyboardHeightProvider extends PopupWindow {
         Rect screenRect = new Rect();
         activity.getWindowManager().getDefaultDisplay().getRectSize(screenRect);
 
-        Point realSize = new Point();
-        activity.getWindowManager().getDefaultDisplay().getRealSize(realSize);
-
         Rect rect = new Rect();
         popupView.getWindowVisibleDisplayFrame(rect);
 
@@ -141,8 +140,12 @@ public class KeyboardHeightProvider extends PopupWindow {
         // and also using the status bar and navigation bar heights of the phone to calculate
         // the keyboard height. But this worked fine on a Nexus.
         int orientation = getScreenOrientation();
-        int keyboardHeight = realSize.y - rect.bottom;
-        
+
+        if (lastY == 0) {
+            lastY = rect.bottom;
+        }
+        int keyboardHeight = lastY - rect.bottom;
+
         if (keyboardHeight == 0) {
             notifyKeyboardHeightChanged(0, orientation);
         }

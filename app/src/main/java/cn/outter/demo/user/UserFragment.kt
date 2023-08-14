@@ -2,9 +2,9 @@ package cn.outter.demo.user
 
 import android.os.Bundle
 import cn.outter.demo.base.BaseVmVbFragment
-import cn.outter.demo.databinding.OutterFragmentUserBinding
+import cn.outter.demo.databinding.OutterFragUserBinding
 
-class UserFragment:BaseVmVbFragment<UserViewModel,OutterFragmentUserBinding>() {
+class UserFragment:BaseVmVbFragment<UserViewModel,OutterFragUserBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
 
     }
@@ -22,6 +22,6 @@ class UserFragment:BaseVmVbFragment<UserViewModel,OutterFragmentUserBinding>() {
     }
 
     override fun dismissLoading() {
-        
+
     }
 }

@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import cn.outter.demo.base.BaseVmVbFragment
 import cn.outter.demo.conversation.ConversationActivity
+import cn.outter.demo.database.entity.ChatUser
 import cn.outter.demo.databinding.OutterFragFindBinding
 import cn.outter.demo.find.api.FindUserApi
 import cn.outter.demo.widget.card.CardLayoutManager
@@ -67,8 +68,9 @@ class FindFragment : BaseVmVbFragment<FindViewModel, OutterFragFindBinding>() {
             val currentUser = adapter?.items?.get(0)
             if (currentUser != null) {
                 Log.d(TAG,"currentUser = $currentUser")
+                val chatUser = ChatUser(currentUser.id,currentUser.name,currentUser.avatarUrl)
                 val intent = Intent(requireContext(), ConversationActivity::class.java)
-                intent.putExtra("toUserId", currentUser.id)
+                intent.putExtra("toUser", chatUser)
                 startActivity(intent)
             }
         }
