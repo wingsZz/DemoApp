@@ -6,11 +6,10 @@ import cn.outter.demo.base.BaseViewModel
 import cn.outter.demo.database.ChatDataBaseDelegate
 import cn.outter.demo.database.entity.Session
 import io.reactivex.Flowable
-import io.reactivex.MaybeObserver
-import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 
 class SessionViewModel : BaseViewModel() {
     companion object {
@@ -20,25 +19,28 @@ class SessionViewModel : BaseViewModel() {
     val sessions = MutableLiveData<List<Session>?>()
 
     fun getAllSession() {
-        ChatDataBaseDelegate.db.sessions().queryAllSessions()
+        Flowable.just("")
             .subscribeOn(Schedulers.io())
+            .map {
+                ChatDataBaseDelegate.db.sessions().queryAllSessions()
+            }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : MaybeObserver<List<Session>?> {
-                override fun onSubscribe(d: Disposable) {
-                    Log.d(TAG, "getAllSession onSubscribe ---- ${Thread.currentThread().name}")
+            .subscribe(object : Subscriber<List<Session>?> {
+                override fun onSubscribe(s: Subscription?) {
+                    Log.d(TAG, "getAllSession onSubscribe")
+                    s?.request(1)
                 }
 
-                override fun onError(e: Throwable) {
-                    Log.d(TAG, "getAllSession onError ---- ${e.message}")
-                    sessions.value = null
+                override fun onError(t: Throwable?) {
+                    Log.d(TAG, "getAllSession onError ---- ${t?.message}")
                 }
 
                 override fun onComplete() {
-                    Log.d(TAG, "getAllSession onComplete ---- ")
+                    Log.d(TAG, "getAllSession onComplete")
                 }
 
-                override fun onSuccess(t: List<Session>) {
-                    Log.d(TAG, "getAllSession onSuccess ---- ${t.size}")
+                override fun onNext(t: List<Session>?) {
+                    Log.d(TAG, "getAllSession onNext ---- $t")
                     sessions.value = t
                 }
 
@@ -47,21 +49,35 @@ class SessionViewModel : BaseViewModel() {
 
     fun updateSessionLastMessageTime(session: Session) {
         session.lastMessageTime = System.currentTimeMillis()
-        ChatDataBaseDelegate.db.sessions().insertSession(session)
+        Flowable.just(session)
             .subscribeOn(Schedulers.io())
+            .map {
+                val result = ChatDataBaseDelegate.db.sessions().updateSession(session)
+                result > 0
+            }
+            .filter {
+                it
+            }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : SingleObserver<List<Long>?> {
-                override fun onSubscribe(d: Disposable) {
-                    Log.d(TAG, "updateSessionLastMessageTime onSubscribe ---- ${Thread.currentThread().name}")
+            .subscribe(object : Subscriber<Boolean> {
+                override fun onSubscribe(s: Subscription?) {
+                    Log.d(TAG, "updateSessionLastMessageTime onSubscribe")
+                    s?.request(1)
                 }
 
-                override fun onSuccess(t: List<Long>) {
-                    Log.d(TAG, "updateSessionLastMessageTime onSuccess ---- ${t[0]}")
+                override fun onError(t: Throwable?) {
+                    Log.d(TAG, "updateSessionLastMessageTime onError ---- ${t?.message}")
+
                 }
 
-                override fun onError(e: Throwable) {
-                    Log.d(TAG, "updateSessionLastMessageTime onError ---- ${e.message}")
+                override fun onComplete() {
+                    Log.d(TAG, "updateSessionLastMessageTime onComplete")
                 }
+
+                override fun onNext(t: Boolean?) {
+                    Log.d(TAG, "updateSessionLastMessageTime onNext ---- $t")
+                }
+
             })
     }
 }

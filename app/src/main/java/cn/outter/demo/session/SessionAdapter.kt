@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import cn.outter.demo.database.entity.Session
 import cn.outter.demo.databinding.ItemSessionBinding
+import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 
 class SessionAdapter : BaseQuickAdapter<Session, SessionAdapter.SessionViewHolder>() {
@@ -16,6 +17,8 @@ class SessionAdapter : BaseQuickAdapter<Session, SessionAdapter.SessionViewHolde
             return
         }
         holder.viewBinding.userLabel.text = item.chatUser.userName
+        holder.viewBinding.lastMessage.text = item.lastMessageContent
+        Glide.with(holder.viewBinding.userAvatar).load(item.chatUser.avatarUrl).circleCrop().into(holder.viewBinding.userAvatar)
     }
 
     override fun onCreateViewHolder(

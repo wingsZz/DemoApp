@@ -13,6 +13,14 @@ class LoginActivity : BaseVmVbActivity<LoginViewModel, OutterActLoginBinding>() 
     override fun createObserver() {
         mViewModel.userLiveData.observe(this) {
             if (it != null) {
+                mViewModel.getUserInfo(this@LoginActivity)
+            } else {
+                ToastUtils.show("登录失败，请重试")
+            }
+        }
+
+        mViewModel.userInfoLiveData.observe(this) {
+            if (it != null) {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {

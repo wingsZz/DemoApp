@@ -10,9 +10,6 @@ object DataCacheInMemory {
     var mine: User? = null
 
     fun refreshMine(user: User?) {
-        if (user == null) {
-            return
-        }
         mine = user
         MMKV.defaultMMKV().putString(MINE_KEY, Gson().toJson(mine))
     }

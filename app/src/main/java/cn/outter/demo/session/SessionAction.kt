@@ -1,8 +1,11 @@
 package cn.outter.demo.session
 
 import cn.outter.demo.database.entity.Session
+import com.jeremyliao.liveeventbus.core.LiveEvent
 
-class SessionAction {
-    val type:Int = 0
-    var session:Session? = null
+data class SessionAction(
+    var type:Int,
+    var session:Session
+):LiveEvent {
+
 }

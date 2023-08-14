@@ -1,119 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <FrameLayout
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/chatting_icon_back" />
+            android:id="@+id/back"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/chatting_icon_back" />
+
+        <ImageView
+            android:id="@+id/userAvatar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"/>
 
         <TextView
-                android:id="@+id/userName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="1234"
-                android:textColor="#000000"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:gravity="center"
+            android:text="1234"
+            android:textColor="#000000"
+            android:textSize="12dp"
+            android:textStyle="bold" />
     </FrameLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/refreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/sendMsgLayout"
-            app:layout_constraintTop_toBottomOf="@id/title">
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/sendMsgLayout"
+        app:layout_constraintTop_toBottomOf="@id/title">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/content_ryv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            android:id="@+id/content_ryv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <FrameLayout
-            android:id="@+id/sendMsgLayout"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="#fefefe"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            app:layout_constraintBottom_toTopOf="@id/panel"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:orientation="horizontal">
+        android:id="@+id/sendMsgLayout"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#fefefe"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        app:layout_constraintBottom_toTopOf="@id/panel">
 
 
         <EditText
-                android:id="@+id/send_edt"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginEnd="40dp"
-                android:background="@drawable/chatting_edit_bg"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:minHeight="38dp"
-                android:padding="5dp"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:visibility="visible"
-                tools:ignore="TextFields" />
+            android:id="@+id/send_edt"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/chatting_edit_bg"
+            android:gravity="center_vertical"
+            android:minHeight="38dp"
+            android:padding="5dp"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:visibility="visible"
+            tools:ignore="TextFields" />
 
         <ImageView
-                android:id="@+id/send"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="end|center_vertical"
-                android:src="@drawable/chat_icon_send_message"
-                android:layout_marginEnd="48dp" />
+            android:id="@+id/send"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="48dp"
+            android:src="@drawable/chat_icon_send_message" />
 
         <ImageView
-                android:id="@+id/switchButton"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="end|center_vertical"
-                android:src="@drawable/chat_icon_send_message" />
+            android:id="@+id/switchButton"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end|center_vertical"
+            android:src="@drawable/chat_icon_send_message" />
     </FrameLayout>
 
     <FrameLayout
-            android:id="@+id/panel"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            app:layout_constraintBottom_toBottomOf="parent">
+        android:id="@+id/panel"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-                android:id="@+id/imagePicker"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/ps_ic_placeholder"/>
+            android:id="@+id/imagePicker"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ps_ic_placeholder" />
 
         <TextView
-                android:layout_width="72dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="图片"
-                android:layout_marginTop="84dp"
-                android:layout_marginStart="8dp"
-                android:textSize="12dp"
-                android:textColor="@color/outter_color_c2"/>
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="84dp"
+            android:gravity="center"
+            android:text="图片"
+            android:textColor="@color/outter_color_c2"
+            android:textSize="12dp" />
     </FrameLayout>
 </LinearLayout>

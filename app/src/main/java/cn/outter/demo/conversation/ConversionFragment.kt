@@ -17,6 +17,7 @@ import cn.outter.demo.database.entity.Session
 import cn.outter.demo.databinding.OutterFragmentConversationBinding
 import cn.outter.demo.keyboard.KeyboardHeightObserver
 import cn.outter.demo.keyboard.KeyboardHeightProvider
+import com.bumptech.glide.Glide
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.entity.LocalMedia
@@ -31,7 +32,6 @@ class ConversionFragment :
         val TAG = "ConversionFragment"
     }
 
-    private var session: Session? = null
     private var toUser: ChatUser? = null
     private val mine = DataCacheInMemory.mine
 
@@ -44,16 +44,24 @@ class ConversionFragment :
 
     override fun createObserver() {
         mViewModel.sessionLiveData.observe(this) {
-            if (session != null && session?.id?.isNotEmpty() == true) {
-                mViewModel.getConversations(session!!.id, System.currentTimeMillis())
+            if (it != null && it.id.isNotEmpty()) {
+                mViewModel.getConversations(System.currentTimeMillis())
             } else {
-
+                requireActivity().finish()
             }
         }
 
         mViewModel.messagesLiveData.observe(this) {
             mViewBind.refreshLayout.isRefreshing = false
             adapter?.addAll(it)
+        }
+
+        mViewModel.remoteMessageLiveData.observe(this) {
+            mViewBind.refreshLayout.isRefreshing = false
+            adapter?.addAll(it)
+            if (adapter != null && adapter!!.itemCount > 0) {
+                mViewBind.contentRyv.scrollToPosition(adapter!!.itemCount - 1)
+            }
         }
     }
 
@@ -78,6 +86,9 @@ class ConversionFragment :
             }
             false
         })
+        mViewBind.back.setOnClickListener {
+            requireActivity().finish()
+        }
         mViewBind.switchButton.setOnClickListener {
             isPanelShow = !isPanelShow
             if (isPanelShow) {
@@ -93,7 +104,8 @@ class ConversionFragment :
         }
         mViewBind.send.setOnClickListener {
             val text = mViewBind.sendEdt.text.toString()
-            val message = MsgFactory.createTxtMsg(text, toUser!!.userId, mine?.id?.toString() ?: "0")
+            val message =
+                MsgFactory.createTxtMsg(text, toUser!!.userId, mine?.id ?: "", true)
             mViewModel.sendTxtMessage(
                 text, message, this@ConversionFragment
             )
@@ -122,7 +134,7 @@ class ConversionFragment :
                                     it.width,
                                     it.height,
                                     toUser!!.userId,
-                                    mine?.id?.toString() ?: "0"
+                                    mine?.id ?: "", true
                                 )
                                 mViewModel.sendPicMessage(it.path, message, this@ConversionFragment)
                                 adapter?.add(message)
@@ -152,7 +164,6 @@ class ConversionFragment :
             }
 
             mViewModel.getConversations(
-                session?.id ?: "",
                 adapter?.items?.get((adapter?.itemCount ?: 0) - 1)?.sendTime ?: -1
             )
         }
@@ -166,11 +177,15 @@ class ConversionFragment :
             requireActivity().finish()
             return
         }
-        session = arguments?.get("session") as Session?
+        mViewBind.userName.text = toUser!!.userName
+        Glide.with(requireActivity()).load(toUser?.avatarUrl).circleCrop()
+            .into(mViewBind.userAvatar)
+        adapter?.setChatUser(toUser)
+        val session = arguments?.get("session") as Session?
         if (session == null) {
-            mViewModel.getSession(toUser!!.userId)
+            mViewModel.getSession(toUser!!)
         } else {
-            mViewModel.getConversations(session!!.id, System.currentTimeMillis())
+            mViewModel.setSession(session)
         }
     }
 

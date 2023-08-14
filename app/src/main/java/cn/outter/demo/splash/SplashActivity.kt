@@ -20,6 +20,7 @@ class SplashActivity : BaseVmVbActivity<SplashViewModel, OutterActSplashBinding>
                 } else {
                     startActivity(Intent(this, MainActivity::class.java))
                 }
+                finish()
             }, 1500)
         }
     }

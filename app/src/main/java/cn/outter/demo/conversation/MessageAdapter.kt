@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import cn.outter.demo.DataCacheInMemory
+import cn.outter.demo.database.entity.ChatUser
 import cn.outter.demo.database.entity.ImgMsg
 import cn.outter.demo.database.entity.Message
 import cn.outter.demo.database.entity.MessageContentUtil
@@ -20,6 +21,7 @@ import com.chad.library.adapter.base.BaseMultiItemAdapter
 
 class MessageAdapter(): BaseMultiItemAdapter<Message>() {
     private val mine = DataCacheInMemory.mine
+    private var toUser:ChatUser? = null
     init {
         addItemType(MessageItemType.MESSAGE_TXT_FROM_ME, object : OnMultiItemAdapterListener<Message, TextMessageFromMeViewHolder> {
             override fun onCreate(context: Context, parent: ViewGroup, viewType: Int): TextMessageFromMeViewHolder {
@@ -35,7 +37,7 @@ class MessageAdapter(): BaseMultiItemAdapter<Message>() {
                     return
                 }
                 holder.viewBinding.msgContent.text = txtMsg.content + item.sendTime
-//                holder.viewBinding.icon.setImageResource(item.imageResource)
+                Glide.with(holder.viewBinding.userAvatar).load(mine?.avatarUrl).circleCrop().into(holder.viewBinding.userAvatar)
             }
         }).addItemType(MessageItemType.MESSAGE_PIC_FROM_ME, object : OnMultiItemAdapterListener<Message, PicMessageFromMeViewHolder> {
             override fun onCreate(context: Context, parent: ViewGroup, viewType: Int): PicMessageFromMeViewHolder {
@@ -51,7 +53,8 @@ class MessageAdapter(): BaseMultiItemAdapter<Message>() {
                 if (imgMsg == null) {
                     return
                 }
-                Glide.with(holder.viewBinding.content).load(imgMsg.imageLocalPath).circleCrop().into(holder.viewBinding.content)
+                Glide.with(holder.viewBinding.content).load(imgMsg.imageLocalPath).into(holder.viewBinding.content)
+                Glide.with(holder.viewBinding.userAvatar).load(mine?.avatarUrl).circleCrop().into(holder.viewBinding.userAvatar)
             }
 
             override fun isFullSpanItem(itemType: Int): Boolean {
@@ -72,12 +75,12 @@ class MessageAdapter(): BaseMultiItemAdapter<Message>() {
                     return
                 }
                 holder.viewBinding.msgContent.text = txtMsg.content + item.sendTime
+                Glide.with(holder.viewBinding.userAvatar).load(toUser?.avatarUrl).circleCrop().into(holder.viewBinding.userAvatar)
             }
 
             override fun isFullSpanItem(itemType: Int): Boolean {
                 return true
             }
-
         }).addItemType(MessageItemType.MESSAGE_PIC_TO_ME, object : OnMultiItemAdapterListener<Message, PicMessageToMeViewHolder> {
             override fun onCreate(context: Context, parent: ViewGroup, viewType: Int): PicMessageToMeViewHolder {
                 val viewBinding =
@@ -91,7 +94,8 @@ class MessageAdapter(): BaseMultiItemAdapter<Message>() {
                 if (imgMsg == null) {
                     return
                 }
-                Glide.with(holder.viewBinding.content).load(imgMsg.imageLocalPath).circleCrop().into(holder.viewBinding.content)
+                Glide.with(holder.viewBinding.content).load(imgMsg.imageLocalPath).into(holder.viewBinding.content)
+                Glide.with(holder.viewBinding.userAvatar).load(toUser?.avatarUrl).circleCrop().into(holder.viewBinding.userAvatar)
             }
 
             override fun isFullSpanItem(itemType: Int): Boolean {
@@ -116,7 +120,9 @@ class MessageAdapter(): BaseMultiItemAdapter<Message>() {
         }
     }
 
-
+    public fun setChatUser(toUser: ChatUser?) {
+        this.toUser = toUser
+    }
 
     class MessageViewHolder(itemView: View):ViewHolder(itemView) {
 

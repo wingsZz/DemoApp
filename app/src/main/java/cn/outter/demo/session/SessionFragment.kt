@@ -2,6 +2,7 @@ package cn.outter.demo.session
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,7 +44,7 @@ class SessionFragment : BaseVmVbFragment<SessionViewModel, OutterFragmentSession
                 if (session != null) {
                     val intent = Intent(context, ConversationActivity::class.java)
                     intent.putExtra("session", session)
-                    intent.putExtra("toUserId", "1")
+                    intent.putExtra("toUser", session.chatUser)
                     startActivity(intent)
                     mViewBind.sessionListView.postDelayed({
                         mViewModel.updateSessionLastMessageTime(session)
@@ -61,9 +62,8 @@ class SessionFragment : BaseVmVbFragment<SessionViewModel, OutterFragmentSession
                 if (datas != null) {
                     when (it.type) {
                         0 -> {
-                            if (it.session != null) {
-                                adapter?.add(0, it.session!!)
-                            }
+                            Log.d("Session","add Session --> ${it.session}")
+                            adapter?.add(0, it.session)
                         }
 //                        1 -> {
 //                            datas.sortWith(Comparator { o1, o2 ->

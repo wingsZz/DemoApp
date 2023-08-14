@@ -13,62 +13,62 @@ import io.reactivex.schedulers.Schedulers
 
 object DatabaseMockUtil {
     fun mockSession() {
-        val sessions = ArrayList<Session>(100)
-        for (i in 0 until 100) {
-            val chatUser = ChatUser(i.toString(), "name_$i", "url_$i")
-            val session = Session(i.toString(),"",System.currentTimeMillis(), chatUser)
-            sessions.add(session)
-        }
-
-
-        ChatDataBaseDelegate.db.sessions().insertSession(*sessions.toTypedArray())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.d("DatabaseDebug","haha -> ${it?.size}")
-                getAllSession()
-            }
-            ) { t ->
-                t?.message
-            }
+//        val sessions = ArrayList<Session>(100)
+//        for (i in 0 until 100) {
+//            val chatUser = ChatUser(i.toString(), "name_$i", "url_$i")
+//            val session = Session(i.toString(),"",System.currentTimeMillis(), chatUser)
+//            sessions.add(session)
+//        }
+//
+//
+//        ChatDataBaseDelegate.db.sessions().insertSession(*sessions.toTypedArray())
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                Log.d("DatabaseDebug","haha -> ${it?.size}")
+//                getAllSession()
+//            }
+//            ) { t ->
+//                t?.message
+//            }
     }
 
     fun mockMessage() {
-        val messages = ArrayList<Message>(1000)
-        for (i in 0 until 1000) {
-            val msgType = java.util.Random().nextInt(2) + 1
-            if (msgType == MsgType.TXT) {
-                val msg = TxtMsg()
-                msg.msgType = MsgType.TXT
-                msg.content = "哈哈哈哈$i"
-                val map = HashMap<String,Any>()
-                map.put("content",msg.toString())
-                val message = Message("1",map,MsgType.TXT,"1","1",System.currentTimeMillis())
-                messages.add(message)
-            } else {
-                val msg = ImgMsg()
-                msg.msgType = MsgType.PIC
-                msg.imageH = i
-                msg.imageW = i
-                msg.imageUrl = "url_$i"
-                msg.imageLocalPath = "local_$i"
-                val map = HashMap<String,Any>()
-                map.put("content",msg.toString())
-                val message = Message("1",map,MsgType.PIC,"1","1",System.currentTimeMillis())
-                messages.add(message)
-            }
-        }
-
-        ChatDataBaseDelegate.db.messages().insertMessage(*messages.toTypedArray())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.d("DatabaseDebug","haha -> ${it.size}")
-                getAllSession()
-            }
-            ) { t ->
-                Log.d("DatabaseDebug","haha -> ${t.message}")
-            }
+//        val messages = ArrayList<Message>(1000)
+//        for (i in 0 until 1000) {
+//            val msgType = java.util.Random().nextInt(2) + 1
+//            if (msgType == MsgType.TXT) {
+//                val msg = TxtMsg()
+//                msg.msgType = MsgType.TXT
+//                msg.content = "哈哈哈哈$i"
+//                val map = HashMap<String,Any>()
+//                map.put("content",msg.toString())
+//                val message = Message("1",map,MsgType.TXT,"1","1",System.currentTimeMillis())
+//                messages.add(message)
+//            } else {
+//                val msg = ImgMsg()
+//                msg.msgType = MsgType.PIC
+//                msg.imageH = i
+//                msg.imageW = i
+//                msg.imageUrl = "url_$i"
+//                msg.imageLocalPath = "local_$i"
+//                val map = HashMap<String,Any>()
+//                map.put("content",msg.toString())
+//                val message = Message("1",map,MsgType.PIC,"1","1",System.currentTimeMillis())
+//                messages.add(message)
+//            }
+//        }
+//
+//        ChatDataBaseDelegate.db.messages().insertMessage(*messages.toTypedArray())
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                Log.d("DatabaseDebug","haha -> ${it.size}")
+//                getAllSession()
+//            }
+//            ) { t ->
+//                Log.d("DatabaseDebug","haha -> ${t.message}")
+//            }
     }
 
     fun getAllSession() {

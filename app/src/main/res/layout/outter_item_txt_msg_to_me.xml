@@ -24,5 +24,5 @@
             android:background="@drawable/chat_icon_bubble_from_other"
             android:textColor="@color/black"
             tools:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginStart="8dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

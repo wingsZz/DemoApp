@@ -27,4 +27,9 @@ class LoginApi : IRequestApi {
     ):Serializable {
 
     }
+
+    data class LoginResponse(
+        var token:String,
+        var username:String
+    ):Serializable
 }
