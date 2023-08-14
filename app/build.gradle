@@ -124,6 +124,8 @@ dependencies {
 
     implementation 'io.github.lucksiege:pictureselector:v3.11.1'
 
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+
     // 测试帮助
     testImplementation "androidx.room:room-testing:$room_version"
 }

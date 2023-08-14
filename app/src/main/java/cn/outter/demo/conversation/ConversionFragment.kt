@@ -1,10 +1,12 @@
 package cn.outter.demo.conversation
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,11 +15,14 @@ import cn.outter.demo.DataCacheInMemory
 import cn.outter.demo.GlideEngine
 import cn.outter.demo.base.BaseVmVbFragment
 import cn.outter.demo.database.entity.ChatUser
+import cn.outter.demo.database.entity.Message
+import cn.outter.demo.database.entity.MsgType
 import cn.outter.demo.database.entity.Session
 import cn.outter.demo.databinding.OutterFragmentConversationBinding
 import cn.outter.demo.keyboard.KeyboardHeightObserver
 import cn.outter.demo.keyboard.KeyboardHeightProvider
 import com.bumptech.glide.Glide
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.entity.LocalMedia
@@ -53,7 +58,13 @@ class ConversionFragment :
 
         mViewModel.messagesLiveData.observe(this) {
             mViewBind.refreshLayout.isRefreshing = false
+            val isInit = (adapter?.itemCount ?: 0) == 0
             adapter?.addAll(it)
+            if (isInit) {
+                if (adapter != null && adapter!!.itemCount > 0) {
+                    mViewBind.contentRyv.scrollToPosition(adapter!!.itemCount - 1)
+                }
+            }
         }
 
         mViewModel.remoteMessageLiveData.observe(this) {
@@ -69,6 +80,7 @@ class ConversionFragment :
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initView(savedInstanceState: Bundle?) {
         inputManager =
             context?.getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager?
@@ -152,10 +164,23 @@ class ConversionFragment :
         }
 
         adapter = MessageAdapter()
+        adapter?.setOnItemClickListener(object :BaseQuickAdapter.OnItemClickListener<Message>{
+            override fun onClick(
+                adapter: BaseQuickAdapter<Message, *>,
+                view: View,
+                position: Int
+            ) {
+                Log.d(TAG,"message clicked!")
+                val message = adapter.items[position]
+                if (message.msgType == MsgType.PIC) {
+                    // 如果不是会员，点击弹出充值
+                }
+            }
+
+        })
         mViewBind.contentRyv.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         mViewBind.contentRyv.adapter = adapter
-
         mViewBind.refreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189))
         mViewBind.refreshLayout.setOnRefreshListener {
             if (adapter?.items?.isEmpty() == true) {

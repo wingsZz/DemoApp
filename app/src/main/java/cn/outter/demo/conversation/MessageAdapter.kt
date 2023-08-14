@@ -17,92 +17,158 @@ import cn.outter.demo.databinding.OutterItemPicMsgToMeBinding
 import cn.outter.demo.databinding.OutterItemTxtMsgFromMeBinding
 import cn.outter.demo.databinding.OutterItemTxtMsgToMeBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseMultiItemAdapter
+import jp.wasabeef.glide.transformations.BlurTransformation
 
-class MessageAdapter(): BaseMultiItemAdapter<Message>() {
+class MessageAdapter() : BaseMultiItemAdapter<Message>() {
     private val mine = DataCacheInMemory.mine
-    private var toUser:ChatUser? = null
+    private var toUser: ChatUser? = null
+
     init {
-        addItemType(MessageItemType.MESSAGE_TXT_FROM_ME, object : OnMultiItemAdapterListener<Message, TextMessageFromMeViewHolder> {
-            override fun onCreate(context: Context, parent: ViewGroup, viewType: Int): TextMessageFromMeViewHolder {
-                val viewBinding =
-                    OutterItemTxtMsgFromMeBinding.inflate(LayoutInflater.from(context), parent, false)
-                return TextMessageFromMeViewHolder(viewBinding)
-            }
-
-            override fun onBind(holder: TextMessageFromMeViewHolder, position: Int, item: Message?) {
-                if (item == null) return
-                val txtMsg = MessageContentUtil.getMsgContent<TxtMsg>(item)
-                if (txtMsg == null) {
-                    return
+        addItemType(
+            MessageItemType.MESSAGE_TXT_FROM_ME,
+            object : OnMultiItemAdapterListener<Message, TextMessageFromMeViewHolder> {
+                override fun onCreate(
+                    context: Context,
+                    parent: ViewGroup,
+                    viewType: Int
+                ): TextMessageFromMeViewHolder {
+                    val viewBinding =
+                        OutterItemTxtMsgFromMeBinding.inflate(
+                            LayoutInflater.from(context),
+                            parent,
+                            false
+                        )
+                    return TextMessageFromMeViewHolder(viewBinding)
                 }
-                holder.viewBinding.msgContent.text = txtMsg.content + item.sendTime
-                Glide.with(holder.viewBinding.userAvatar).load(mine?.avatarUrl).circleCrop().into(holder.viewBinding.userAvatar)
-            }
-        }).addItemType(MessageItemType.MESSAGE_PIC_FROM_ME, object : OnMultiItemAdapterListener<Message, PicMessageFromMeViewHolder> {
-            override fun onCreate(context: Context, parent: ViewGroup, viewType: Int): PicMessageFromMeViewHolder {
-                val viewBinding =
-                    OutterItemPicMsgFromMeBinding.inflate(LayoutInflater.from(context), parent, false)
-                return PicMessageFromMeViewHolder(viewBinding)
-            }
 
-            override fun onBind(holder: PicMessageFromMeViewHolder, position: Int, item: Message?) {
-                if (item == null) return
-
-                val imgMsg = MessageContentUtil.getMsgContent<ImgMsg>(item)
-                if (imgMsg == null) {
-                    return
+                override fun onBind(
+                    holder: TextMessageFromMeViewHolder,
+                    position: Int,
+                    item: Message?
+                ) {
+                    if (item == null) return
+                    val txtMsg = MessageContentUtil.getMsgContent<TxtMsg>(item)
+                    if (txtMsg == null) {
+                        return
+                    }
+                    holder.viewBinding.msgContent.text = txtMsg.content + item.sendTime
+                    Glide.with(holder.viewBinding.userAvatar).load(mine?.avatarUrl).circleCrop()
+                        .into(holder.viewBinding.userAvatar)
                 }
-                Glide.with(holder.viewBinding.content).load(imgMsg.imageLocalPath).into(holder.viewBinding.content)
-                Glide.with(holder.viewBinding.userAvatar).load(mine?.avatarUrl).circleCrop().into(holder.viewBinding.userAvatar)
-            }
-
-            override fun isFullSpanItem(itemType: Int): Boolean {
-                return true
-            }
-
-        }).addItemType(MessageItemType.MESSAGE_TXT_TO_ME, object : OnMultiItemAdapterListener<Message, TextMessageToMeViewHolder> {
-            override fun onCreate(context: Context, parent: ViewGroup, viewType: Int): TextMessageToMeViewHolder {
-                val viewBinding =
-                    OutterItemTxtMsgToMeBinding.inflate(LayoutInflater.from(context), parent, false)
-                return TextMessageToMeViewHolder(viewBinding)
-            }
-
-            override fun onBind(holder: TextMessageToMeViewHolder, position: Int, item: Message?) {
-                if (item == null) return
-                val txtMsg = MessageContentUtil.getMsgContent<TxtMsg>(item)
-                if (txtMsg == null) {
-                    return
+            }).addItemType(
+            MessageItemType.MESSAGE_PIC_FROM_ME,
+            object : OnMultiItemAdapterListener<Message, PicMessageFromMeViewHolder> {
+                override fun onCreate(
+                    context: Context,
+                    parent: ViewGroup,
+                    viewType: Int
+                ): PicMessageFromMeViewHolder {
+                    val viewBinding =
+                        OutterItemPicMsgFromMeBinding.inflate(
+                            LayoutInflater.from(context),
+                            parent,
+                            false
+                        )
+                    return PicMessageFromMeViewHolder(viewBinding)
                 }
-                holder.viewBinding.msgContent.text = txtMsg.content + item.sendTime
-                Glide.with(holder.viewBinding.userAvatar).load(toUser?.avatarUrl).circleCrop().into(holder.viewBinding.userAvatar)
-            }
 
-            override fun isFullSpanItem(itemType: Int): Boolean {
-                return true
-            }
-        }).addItemType(MessageItemType.MESSAGE_PIC_TO_ME, object : OnMultiItemAdapterListener<Message, PicMessageToMeViewHolder> {
-            override fun onCreate(context: Context, parent: ViewGroup, viewType: Int): PicMessageToMeViewHolder {
-                val viewBinding =
-                    OutterItemPicMsgToMeBinding.inflate(LayoutInflater.from(context), parent, false)
-                return PicMessageToMeViewHolder(viewBinding)
-            }
+                override fun onBind(
+                    holder: PicMessageFromMeViewHolder,
+                    position: Int,
+                    item: Message?
+                ) {
+                    if (item == null) return
 
-            override fun onBind(holder: PicMessageToMeViewHolder, position: Int, item: Message?) {
-                if (item == null) return
-                val imgMsg = MessageContentUtil.getMsgContent<ImgMsg>(item)
-                if (imgMsg == null) {
-                    return
+                    val imgMsg = MessageContentUtil.getMsgContent<ImgMsg>(item)
+                    if (imgMsg == null) {
+                        return
+                    }
+                    Glide.with(holder.viewBinding.content).load(imgMsg.imageLocalPath)
+                        .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))
+                        .into(holder.viewBinding.content)
+                    Glide.with(holder.viewBinding.userAvatar).load(mine?.avatarUrl).circleCrop()
+                        .into(holder.viewBinding.userAvatar)
                 }
-                Glide.with(holder.viewBinding.content).load(imgMsg.imageLocalPath).into(holder.viewBinding.content)
-                Glide.with(holder.viewBinding.userAvatar).load(toUser?.avatarUrl).circleCrop().into(holder.viewBinding.userAvatar)
-            }
 
-            override fun isFullSpanItem(itemType: Int): Boolean {
-                return true
-            }
+                override fun isFullSpanItem(itemType: Int): Boolean {
+                    return true
+                }
 
-        }).onItemViewType { position, list ->
+            }).addItemType(
+            MessageItemType.MESSAGE_TXT_TO_ME,
+            object : OnMultiItemAdapterListener<Message, TextMessageToMeViewHolder> {
+                override fun onCreate(
+                    context: Context,
+                    parent: ViewGroup,
+                    viewType: Int
+                ): TextMessageToMeViewHolder {
+                    val viewBinding =
+                        OutterItemTxtMsgToMeBinding.inflate(
+                            LayoutInflater.from(context),
+                            parent,
+                            false
+                        )
+                    return TextMessageToMeViewHolder(viewBinding)
+                }
+
+                override fun onBind(
+                    holder: TextMessageToMeViewHolder,
+                    position: Int,
+                    item: Message?
+                ) {
+                    if (item == null) return
+                    val txtMsg = MessageContentUtil.getMsgContent<TxtMsg>(item)
+                    if (txtMsg == null) {
+                        return
+                    }
+                    holder.viewBinding.msgContent.text = txtMsg.content + item.sendTime
+                    Glide.with(holder.viewBinding.userAvatar).load(toUser?.avatarUrl).circleCrop()
+                        .into(holder.viewBinding.userAvatar)
+                }
+
+                override fun isFullSpanItem(itemType: Int): Boolean {
+                    return true
+                }
+            }).addItemType(
+            MessageItemType.MESSAGE_PIC_TO_ME,
+            object : OnMultiItemAdapterListener<Message, PicMessageToMeViewHolder> {
+                override fun onCreate(
+                    context: Context,
+                    parent: ViewGroup,
+                    viewType: Int
+                ): PicMessageToMeViewHolder {
+                    val viewBinding =
+                        OutterItemPicMsgToMeBinding.inflate(
+                            LayoutInflater.from(context),
+                            parent,
+                            false
+                        )
+                    return PicMessageToMeViewHolder(viewBinding)
+                }
+
+                override fun onBind(
+                    holder: PicMessageToMeViewHolder,
+                    position: Int,
+                    item: Message?
+                ) {
+                    if (item == null) return
+                    val imgMsg = MessageContentUtil.getMsgContent<ImgMsg>(item)
+                    if (imgMsg == null) {
+                        return
+                    }
+                    Glide.with(holder.viewBinding.content).load(imgMsg.imageLocalPath)
+                        .into(holder.viewBinding.content)
+                    Glide.with(holder.viewBinding.userAvatar).load(toUser?.avatarUrl).circleCrop()
+                        .into(holder.viewBinding.userAvatar)
+                }
+
+                override fun isFullSpanItem(itemType: Int): Boolean {
+                    return true
+                }
+
+            }).onItemViewType { position, list ->
             if (list[position].fromId == (mine?.id ?: "")) {
                 if (list[position].msgType == MsgType.TXT) {
                     return@onItemViewType MessageItemType.MESSAGE_TXT_FROM_ME
@@ -124,23 +190,27 @@ class MessageAdapter(): BaseMultiItemAdapter<Message>() {
         this.toUser = toUser
     }
 
-    class MessageViewHolder(itemView: View):ViewHolder(itemView) {
+    class MessageViewHolder(itemView: View) : ViewHolder(itemView) {
 
     }
 
-    class TextMessageFromMeViewHolder(val viewBinding: OutterItemTxtMsgFromMeBinding):ViewHolder(viewBinding.root) {
+    class TextMessageFromMeViewHolder(val viewBinding: OutterItemTxtMsgFromMeBinding) :
+        ViewHolder(viewBinding.root) {
 
     }
 
-    class TextMessageToMeViewHolder(val viewBinding: OutterItemTxtMsgToMeBinding):ViewHolder(viewBinding.root) {
+    class TextMessageToMeViewHolder(val viewBinding: OutterItemTxtMsgToMeBinding) :
+        ViewHolder(viewBinding.root) {
 
     }
 
-    class PicMessageFromMeViewHolder(val viewBinding: OutterItemPicMsgFromMeBinding):ViewHolder(viewBinding.root) {
+    class PicMessageFromMeViewHolder(val viewBinding: OutterItemPicMsgFromMeBinding) :
+        ViewHolder(viewBinding.root) {
 
     }
 
-    class PicMessageToMeViewHolder(val viewBinding: OutterItemPicMsgToMeBinding):ViewHolder(viewBinding.root) {
+    class PicMessageToMeViewHolder(val viewBinding: OutterItemPicMsgToMeBinding) :
+        ViewHolder(viewBinding.root) {
 
     }
 }
