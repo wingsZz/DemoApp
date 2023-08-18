@@ -13,10 +13,10 @@ class FindUserApi : IRequestApi {
 
     data class FindUser(
         var id: String,
-        var name: String,
+        var name: String?,
         var gender: Int,
         var birthday: String,
-        var avatarUrl: String,
-        var photoUrl: String
+        var avatarUrl: String?,
+        var photoUrl: String?
     ) : Serializable
 }

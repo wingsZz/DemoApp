@@ -21,27 +21,40 @@ class FindFragment : BaseVmVbFragment<FindViewModel, OutterFragFindBinding>() {
     }
 
     private var adapter: FindAdapter? = null
+    private var touchHelper: ReItemTouchHelper? = null
 
     override fun initView(savedInstanceState: Bundle?) {
         adapter = FindAdapter(ArrayList())
-        adapter?.setOnLikeClick(object : OnLikeClick {
-            override fun onLikeClick(findUser: FindUserApi.FindUser?) {
-
-            }
-        })
         val config = CardSetting()
-        config.setSwipeListener(object :OnSwipeCardListener<FindUserApi.FindUser> {
+        config.setSwipeListener(object : OnSwipeCardListener<FindUserApi.FindUser> {
             override fun onSwiping(
                 viewHolder: RecyclerView.ViewHolder?,
                 dx: Float,
                 dy: Float,
                 direction: Int
             ) {
-                Log.d(TAG,"onSwiping dx = $dx,dy = $dy,direction = $direction")
+                Log.d(TAG, "onSwiping dx = $dx,dy = $dy,direction = $direction")
+                when (direction) {
+                    ReItemTouchHelper.DOWN -> {
+
+                    }
+
+                    ReItemTouchHelper.UP -> {
+
+                    }
+
+                    ReItemTouchHelper.RIGHT -> {
+                        // like
+                    }
+
+                    ReItemTouchHelper.LEFT -> {
+                        //dislike
+                    }
+                }
             }
 
             override fun onSwipedClear() {
-                Log.d(TAG,"onSwipedClear")
+                Log.d(TAG, "onSwipedClear")
             }
 
             override fun onSwipedOut(
@@ -49,29 +62,64 @@ class FindFragment : BaseVmVbFragment<FindViewModel, OutterFragFindBinding>() {
                 t: FindUserApi.FindUser?,
                 direction: Int
             ) {
-                Log.d(TAG,"onSwipedOut data = $t,direction = $direction")
+                Log.d(TAG, "onSwipedOut data = $t,direction = $direction")
+                if (t != null) {
+                    when (direction) {
+                        ReItemTouchHelper.DOWN -> {
+
+                        }
+
+                        ReItemTouchHelper.UP -> {
+
+                        }
+
+                        ReItemTouchHelper.RIGHT -> {
+                            // like
+                            mViewModel.like(t, this@FindFragment)
+                        }
+
+                        ReItemTouchHelper.LEFT -> {
+                            //dislike
+                            mViewModel.dislike(t, this@FindFragment)
+                        }
+                    }
+                }
             }
 
         })
+        touchHelper = ReItemTouchHelper(
+            CardTouchHelperCallback(
+                mViewBind.userListView,
+                adapter?.items!!,
+                config
+            )
+        )
         mViewBind.userListView.layoutManager = CardLayoutManager(
-            ReItemTouchHelper(
-                CardTouchHelperCallback(
-                    mViewBind.userListView,
-                    adapter?.items!!,
-                    config
-                )
-            ), config
+            touchHelper!!, config
         )
         mViewBind.userListView.adapter = adapter
 
-        mViewBind.like.setOnClickListener {
+        mViewBind.superlike.setOnClickListener {
             val currentUser = adapter?.items?.get(0)
             if (currentUser != null) {
-                Log.d(TAG,"currentUser = $currentUser")
-                val chatUser = ChatUser(currentUser.id,currentUser.name,currentUser.avatarUrl)
+                Log.d(TAG, "currentUser = $currentUser")
+                val chatUser =
+                    ChatUser(currentUser.id, currentUser.name ?: "", currentUser.avatarUrl ?: "")
                 val intent = Intent(requireContext(), ConversationActivity::class.java)
                 intent.putExtra("toUser", chatUser)
                 startActivity(intent)
+            }
+        }
+
+        mViewBind.dislike.setOnClickListener {
+            if ((adapter?.itemCount ?: 0) > 0) {
+                touchHelper?.swipeManually(ReItemTouchHelper.LEFT)
+            }
+        }
+
+        mViewBind.like.setOnClickListener {
+            if ((adapter?.itemCount ?: 0) > 0) {
+                touchHelper?.swipeManually(ReItemTouchHelper.RIGHT)
             }
         }
     }

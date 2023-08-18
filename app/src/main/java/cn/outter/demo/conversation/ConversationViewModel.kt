@@ -53,6 +53,7 @@ class ConversationViewModel : BaseViewModel() {
 
                 override fun onError(t: Throwable?) {
                     Log.d(TAG, "getSession onError ---- ${t?.message}")
+                    createSession(toUser)
                 }
 
                 override fun onComplete() {
@@ -64,7 +65,7 @@ class ConversationViewModel : BaseViewModel() {
                     if (t != null) {
                         sessionLiveData.value = t
                     } else {
-                        sessionLiveData.value = null
+                        createSession(toUser)
                     }
                 }
 
