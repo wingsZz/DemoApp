@@ -29,10 +29,6 @@ class SplashActivity : BaseVmVbActivity<SplashViewModel, OutterActSplashBinding>
         ImmersionBar.with(this).transparentStatusBar().transparentNavigationBar().init()
     }
 
-    override fun dismissLoading() {
-
-    }
-
     override fun initView(savedInstanceState: Bundle?) {
 
     }
@@ -40,9 +36,5 @@ class SplashActivity : BaseVmVbActivity<SplashViewModel, OutterActSplashBinding>
     override fun onResume() {
         super.onResume()
         mViewModel.chooseWhereToGo()
-    }
-
-    override fun showLoading(message: String) {
-
     }
 }

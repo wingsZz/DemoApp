@@ -16,9 +16,9 @@ class RegisterViewModel: BaseViewModel() {
     private val registerApi = RegisterApi()
     val userLiveData = MutableLiveData<User?>()
 
-    fun registerAccount(account:String,password:String,owner: LifecycleOwner) {
+    fun registerAccount(account:String,password:String,birthday:String,owner: LifecycleOwner) {
         EasyHttp.post(owner)
-            .json(Gson().toJson(RegisterApi.RegisterRequest(account,password,0,"1998-03-04")))
+            .json(Gson().toJson(RegisterApi.RegisterRequest(account,password,0,birthday)))
             .api(
                 registerApi
             )

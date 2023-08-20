@@ -14,15 +14,21 @@ import com.gyf.immersionbar.ImmersionBar
 
 abstract class BaseVmActivity<VM : BaseViewModel> : AppCompatActivity() {
 
+    private var loadingDialog = LoadingDialogFragment()
+
     lateinit var mViewModel: VM
 
     abstract fun layoutId(): Int
 
     abstract fun initView(savedInstanceState: Bundle?)
 
-    abstract fun showLoading(message: String = "请求网络中...")
+    fun showLoading(message: String = "请求网络中...") {
+        loadingDialog.show(supportFragmentManager,"")
+    }
 
-    abstract fun dismissLoading()
+    fun dismissLoading() {
+        loadingDialog.dismiss()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initImmersionBar()

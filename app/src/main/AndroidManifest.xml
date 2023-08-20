@@ -45,6 +45,7 @@
         <activity android:name="cn.outter.demo.account.LoginActivity" />
         <activity android:name="cn.outter.demo.account.RegisterActivity" />
         <activity android:name="cn.outter.demo.MainActivity" />
+        <activity android:name="cn.outter.demo.user.ModifyUserInfoActivity" />
 
     </application>
 

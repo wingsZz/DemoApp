@@ -20,7 +20,9 @@
         android:layout_marginStart="8dp"
         android:text="1234"
         app:layout_constraintStart_toEndOf="@id/userAvatar"
-        app:layout_constraintTop_toTopOf="@id/userAvatar" />
+        app:layout_constraintTop_toTopOf="@id/userAvatar"
+            android:textColor="@color/black"
+            android:textSize="14dp"/>
 
     <TextView
         android:id="@+id/lastMessage"
@@ -28,5 +30,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@id/userAvatar"
-        app:layout_constraintStart_toEndOf="@id/userAvatar" />
+        app:layout_constraintStart_toEndOf="@id/userAvatar"
+            android:textSize="12dp"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/outter_color_c2"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

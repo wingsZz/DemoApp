@@ -14,7 +14,7 @@ import com.hjq.http.listener.OnHttpListener
 
 class UserViewModel:BaseViewModel() {
     private val userInfoApi = UserInfoApi()
-    val userInfoLiveData = MutableLiveData<User?>()
+    val userInfoLiveData = MutableLiveData<UserInfoApi.UserInfo?>()
     private val logoutApi = LoginApi()
     val logoutLiveData = MutableLiveData<Any>()
 
@@ -27,25 +27,13 @@ class UserViewModel:BaseViewModel() {
                         userInfoLiveData.value = null
                         errorMessageLiveData.value = "获取用户信息失败，请重试!"
                     } else {
-                        val user = User(
-                            "",
-                            result.data.username,
-                            EasyConfig.getInstance().headers["token"]?:"",
-                            result.data.nickname,
-                            result.data.gender,
-                            result.data.birthday,
-                            result.data.avatarUrl,
-                            result.data.photoUrl
-                        )
-                        DataCacheInMemory.refreshMine(user)
-                        userInfoLiveData.value = DataCacheInMemory.mine
+                        userInfoLiveData.value = result.data
                     }
                 }
 
                 override fun onHttpFail(e: java.lang.Exception?) {
-
+                    errorMessageLiveData.value = e?.message
                 }
-
             })
     }
 

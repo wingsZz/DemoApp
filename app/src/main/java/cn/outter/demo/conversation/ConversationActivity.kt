@@ -17,10 +17,6 @@ class ConversationActivity : BaseVmVbActivity<BaseViewModel, OutterActivityConve
 
     }
 
-    override fun dismissLoading() {
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -40,9 +36,5 @@ class ConversationActivity : BaseVmVbActivity<BaseViewModel, OutterActivityConve
         conversationFragment?.arguments = bundle
         supportFragmentManager.beginTransaction().add(R.id.container, conversationFragment!!, "")
             .commit()
-    }
-
-    override fun showLoading(message: String) {
-
     }
 }

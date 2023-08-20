@@ -55,10 +55,6 @@ class MainActivity : BaseVmVbActivity<MainViewModel, ActivityMainBinding>() {
 
     }
 
-    override fun dismissLoading() {
-
-    }
-
     override fun initView(savedInstanceState: Bundle?) {
         adapter = FragmentPagerAdapter(this)
         mViewBind.viewPager.offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
@@ -79,10 +75,6 @@ class MainActivity : BaseVmVbActivity<MainViewModel, ActivityMainBinding>() {
         Handler().postDelayed({
 //            DatabaseMockUtil.mockMessage()
         },1000)
-    }
-
-    override fun showLoading(message: String) {
-
     }
 
     private class FragmentPagerAdapter(fragmentActivity: FragmentActivity) :

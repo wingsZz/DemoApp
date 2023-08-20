@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+                android:id="@+id/back"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/chatting_icon_back" />
+
+        <TextView
+                android:id="@+id/titleName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="1234"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+    </FrameLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="72dp">
+
+        <FrameLayout
+                android:id="@+id/modifyNickNameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="48dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:background="@drawable/outter_login_input_bg">
+
+            <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/login_icon_account" />
+
+            <EditText
+                    android:id="@+id/account"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="24dp"
+                    android:textColorHint="@color/outter_color_c3"
+                    android:background="@null"
+                    android:hint="@string/outter_user_info_input_nick_name"
+                    android:singleLine="true"
+                    android:textSize="18dp"/>
+
+            <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/login_icon_input_invalidate"
+                    android:layout_gravity="end|center_vertical"
+                    android:visibility="gone"/>
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/modifyBirthLayout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="48dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:background="@drawable/outter_login_input_bg">
+
+            <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/login_icon_birthdate" />
+
+
+
+
+            <TextView
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="24dp"
+                    android:textColor="@color/outter_color_c3"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:textSize="18dp"
+                    android:text="@string/outter_login_choose_birthdate"
+                    android:singleLine="true"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/modifyPasswordLayout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="48dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:background="@drawable/outter_login_input_bg">
+
+            <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/login_icon_pwd" />
+
+            <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/account"
+                    android:hint="@string/outter_login_input_password"
+                    android:textColorHint="@color/outter_color_c3"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:textSize="18dp"/>
+
+            <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/login_icon_input_invalidate"
+                    android:layout_gravity="end|center_vertical"
+                    android:visibility="gone"/>
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/modifyPasswordAgainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="48dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:background="@drawable/outter_login_input_bg">
+
+            <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/login_icon_pwd" />
+
+            <EditText
+                    android:id="@+id/passwordAgain"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/password"
+                    android:hint="@string/outter_login_input_password_again"
+                    android:textColorHint="@color/outter_color_c3"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:textSize="18dp"/>
+
+            <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/login_icon_input_invalidate"
+                    android:layout_gravity="end|center_vertical"
+                    android:visibility="gone"/>
+        </FrameLayout>
+
+
+        <TextView
+                android:id="@+id/modify"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/outter_user_info_modify"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="@drawable/login_shape_signup" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

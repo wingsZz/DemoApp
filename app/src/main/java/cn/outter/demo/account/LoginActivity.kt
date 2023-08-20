@@ -6,6 +6,7 @@ import cn.outter.demo.DataCacheInMemory
 import cn.outter.demo.MainActivity
 import cn.outter.demo.base.BaseVmVbActivity
 import cn.outter.demo.databinding.OutterActLoginBinding
+import com.gyf.immersionbar.ImmersionBar
 import com.hjq.http.EasyConfig
 import com.hjq.toast.ToastUtils
 
@@ -15,11 +16,13 @@ class LoginActivity : BaseVmVbActivity<LoginViewModel, OutterActLoginBinding>() 
             if (it != null) {
                 mViewModel.getUserInfo(this@LoginActivity)
             } else {
+                dismissLoading()
                 ToastUtils.show("登录失败，请重试")
             }
         }
 
         mViewModel.userInfoLiveData.observe(this) {
+            dismissLoading()
             if (it != null) {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
@@ -29,12 +32,9 @@ class LoginActivity : BaseVmVbActivity<LoginViewModel, OutterActLoginBinding>() 
         }
     }
 
-    override fun dismissLoading() {
-
-    }
-
     override fun initView(savedInstanceState: Bundle?) {
         mViewBind.login.setOnClickListener {
+            showLoading("正在登录...")
             val account = mViewBind.account.text.toString()
             val password = mViewBind.password.text.toString()
             mViewModel.login(account, password, this@LoginActivity)
@@ -45,7 +45,7 @@ class LoginActivity : BaseVmVbActivity<LoginViewModel, OutterActLoginBinding>() 
         }
     }
 
-    override fun showLoading(message: String) {
-
+    override fun initImmersionBar() {
+        ImmersionBar.with(this).transparentStatusBar().transparentNavigationBar().init()
     }
 }

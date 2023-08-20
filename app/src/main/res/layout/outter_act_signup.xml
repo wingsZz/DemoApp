@@ -45,13 +45,15 @@
                         android:textColorHint="@color/outter_color_c3"
                         android:background="@null"
                         android:hint="@string/outter_login_input_account"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                        android:textSize="18dp"/>
 
                 <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/login_icon_input_invalidate"
-                        android:layout_gravity="end|center_vertical" />
+                        android:layout_gravity="end|center_vertical"
+                        android:visibility="gone"/>
             </FrameLayout>
 
             <FrameLayout
@@ -71,60 +73,19 @@
                         android:src="@drawable/login_icon_birthdate" />
 
 
-                <LinearLayout
+
+
+                <TextView
+                        android:id="@+id/date"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="24dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@id/account">
-
-                    <EditText
-                            android:id="@+id/year"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.25"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical|end"
-                            app:layout_constraintTop_toBottomOf="@id/account"
-                            android:text="2005"
-                            android:textColor="@color/outter_color_c3" android:background="@null"/>
-
-                    <View
-                            android:layout_width="8dp"
-                            android:layout_height="1dp"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="4dp"
-                            android:background="@color/outter_color_c2"
-                            android:layout_gravity="center_vertical"/>
-
-                    <EditText
-                            android:id="@+id/mouth"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.25"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical|end"
-                            app:layout_constraintTop_toBottomOf="@id/account"
-                            android:text="07"
-                            android:textColor="@color/outter_color_c3"
-                            android:background="@null" />
-
-                    <View
-                            android:layout_width="8dp"
-                            android:layout_height="1dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="@color/outter_color_c2" />
-
-                    <EditText
-                            android:id="@+id/day"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.25"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical|end"
-                            app:layout_constraintTop_toBottomOf="@id/account"
-                            android:text="12"
-                            android:textColor="@color/outter_color_c3"
-                            android:background="@null"/>
-                </LinearLayout>
-
+                        android:textColor="@color/outter_color_c3"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:textSize="18dp"
+                        android:text="@string/outter_login_choose_birthdate"
+                        android:singleLine="true"/>
 
             </FrameLayout>
 
@@ -153,13 +114,15 @@
                         android:hint="@string/outter_login_input_password"
                         android:textColorHint="@color/outter_color_c3"
                         android:background="@null"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                        android:textSize="18dp"/>
 
                 <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/login_icon_input_invalidate"
-                        android:layout_gravity="end|center_vertical" />
+                        android:layout_gravity="end|center_vertical"
+                        android:visibility="gone"/>
             </FrameLayout>
 
             <FrameLayout
@@ -187,13 +150,15 @@
                         android:hint="@string/outter_login_input_password_again"
                         android:textColorHint="@color/outter_color_c3"
                         android:background="@null"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                        android:textSize="18dp"/>
 
                 <ImageView
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/login_icon_input_invalidate"
-                        android:layout_gravity="end|center_vertical" />
+                        android:layout_gravity="end|center_vertical"
+                        android:visibility="gone"/>
             </FrameLayout>
 
 

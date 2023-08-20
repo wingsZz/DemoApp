@@ -11,6 +11,10 @@ object DataCacheInMemory {
 
     fun refreshMine(user: User?) {
         mine = user
-        MMKV.defaultMMKV().putString(MINE_KEY, Gson().toJson(mine))
+        if (mine == null) {
+            MMKV.defaultMMKV().putString(MINE_KEY, "")
+        } else {
+            MMKV.defaultMMKV().putString(MINE_KEY, Gson().toJson(mine))
+        }
     }
 }
